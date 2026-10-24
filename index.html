@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeckoShop - ร้านขายไอดีเกม Roblox</title>
-    <!-- 🔥 ป้องกัน FOUC: โหลดธีมก่อน render -->
     <script>
         (function() {
             const theme = localStorage.getItem('geckoTheme') || 'light';
@@ -26,7 +25,6 @@
             --shadow-lg: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        /* 🔥 DARK MODE */
         [data-theme="dark"] {
             --white: #1e1e24;
             --gray-50: #16161a;
@@ -67,11 +65,6 @@
         [data-theme="dark"] .delivered-box span { background: var(--gray-50); color: var(--gray-900); border-color: var(--gray-300); }
         [data-theme="dark"] .copy-btn { background: var(--gray-200); color: var(--gray-900); }
         [data-theme="dark"] .copy-btn:hover { background: var(--gray-300); }
-        [data-theme="dark"] .cta { background: var(--gray-900); color: var(--gray-50); }
-        [data-theme="dark"] .cta h2 { color: #16161a; }
-        [data-theme="dark"] .cta p { color: var(--gray-600); }
-        [data-theme="dark"] .cta .btn { background: #16161a; color: var(--gray-900); }
-        [data-theme="dark"] .cta .btn:hover { background: var(--gray-100); }
         [data-theme="dark"] .hero-badge { background: var(--gray-100); color: var(--gray-800); }
         [data-theme="dark"] .success-checkmark .check-icon::before,
         [data-theme="dark"] .success-checkmark .check-icon::after,
@@ -79,7 +72,6 @@
         [data-theme="dark"] .product-image { background: var(--gray-200); }
         [data-theme="dark"] .admin-product-thumb { background: var(--gray-200); }
         [data-theme="dark"] .stat { background: var(--white); }
-        [data-theme="dark"] .caption { color: var(--gray-500); }
         [data-theme="dark"] .admin-form-group { background: var(--gray-100); border-color: var(--gray-300); }
         [data-theme="dark"] .image-preview { background: var(--gray-200); }
         [data-theme="dark"] .inventory-list { background: var(--gray-50); }
@@ -87,6 +79,7 @@
         [data-theme="dark"] .user-table th { background: var(--gray-200); }
         [data-theme="dark"] .user-table tbody tr:hover { background: var(--gray-100); }
         [data-theme="dark"] .user-table tbody tr.selected { background: var(--gray-200); }
+        [data-theme="dark"] .filter-btn.active { color: #16161a; }
 
         body { font-family: 'Kanit', sans-serif; background: var(--gray-50); color: var(--gray-800); line-height: 1.6; font-weight: 300; transition: background 0.3s, color 0.3s; }
 
@@ -111,12 +104,7 @@
         .profile-avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; cursor: pointer; border: 2px solid var(--gray-200); transition: all 0.2s; background: var(--gray-100); }
         .profile-avatar:hover { border-color: var(--gray-900); transform: scale(1.05); }
 
-        .profile-menu {
-            position: absolute; top: 55px; right: 0; background: var(--white);
-            border: 1px solid var(--gray-200); border-radius: 12px; box-shadow: var(--shadow-lg);
-            width: 240px; display: none; flex-direction: column; z-index: 1000;
-            overflow: hidden; animation: slideDownFade 0.2s ease-out;
-        }
+        .profile-menu { position: absolute; top: 55px; right: 0; background: var(--white); border: 1px solid var(--gray-200); border-radius: 12px; box-shadow: var(--shadow-lg); width: 240px; display: none; flex-direction: column; z-index: 1000; overflow: hidden; animation: slideDownFade 0.2s ease-out; }
         .profile-menu.show { display: flex; }
         .profile-menu-header { padding: 15px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--gray-100); background: var(--gray-50); }
         .profile-menu-header img { width: 45px; height: 45px; border-radius: 50%; border: 1px solid var(--gray-300); object-fit: cover; }
@@ -160,7 +148,6 @@
         .filter-btn { padding: 9px 22px; border-radius: 100px; background: var(--white); border: 1px solid var(--gray-300); color: var(--gray-700); font-family: inherit; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; font-weight: 400; }
         .filter-btn:hover { border-color: var(--gray-500); }
         .filter-btn.active { background: var(--gray-900); color: white; border-color: var(--gray-900); }
-        [data-theme="dark"] .filter-btn.active { color: #16161a; }
         .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
         .product-card { background: var(--white); border-radius: 16px; overflow: hidden; border: 1px solid var(--gray-200); transition: all 0.3s; cursor: pointer; position: relative; display: flex; flex-direction: column; }
         .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--gray-300); }
@@ -481,7 +468,6 @@
         </div>
     </div>
 
-    <!-- SETTINGS MODAL -->
     <div class="modal-overlay" id="settingsModal">
         <div class="modal-content auth-modal">
             <div class="modal-header">
@@ -507,7 +493,6 @@
                     </select>
                 </div>
 
-                <!-- 🔥 ตัวเลือกธีม -->
                 <div class="auth-form-group">
                     <label data-i18n="set_theme">ธีม (Theme)</label>
                     <select id="settingsTheme" class="auth-input" style="cursor: pointer;">
@@ -925,6 +910,7 @@
             updateSwitchText(); 
         }
 
+        // 🔥 LOAD DATA + บังคับOverride แอดมิน
         function loadData() {
             products = JSON.parse(localStorage.getItem('geckoProducts')) || [...defaultProducts];
             settings = JSON.parse(localStorage.getItem('geckoSettings')) || { ...defaultSettings };
@@ -935,17 +921,24 @@
 
             products.forEach(p => { if (!p.accounts) p.accounts = []; });
 
-            if (!users[ADMIN_USERNAME]) {
-                users[ADMIN_USERNAME] = { password: ADMIN_PASSWORD, avatar: '' };
-            }
+            // 🔥 บังคับตั้งค่าแอดมินใหม่ทุกครั้ง (Override) - สำคัญมาก!
+            if (!users[ADMIN_USERNAME]) users[ADMIN_USERNAME] = { avatar: '', redeemedCodes: [] };
+            users[ADMIN_USERNAME].password = ADMIN_PASSWORD;
+            if (!users[ADMIN_USERNAME].redeemedCodes) users[ADMIN_USERNAME].redeemedCodes = [];
+
             if (!wallets[ADMIN_USERNAME]) {
                 wallets[ADMIN_USERNAME] = { balance: 99999, totalSpent: 0, orderCount: 0, totalTopup: 99999 };
             }
             
+            // ตรวจสอบ user อื่น
             for (let user in users) {
                 if (!wallets[user]) wallets[user] = { balance: 0, totalSpent: 0, orderCount: 0, totalTopup: 0 };
                 if (!users[user].redeemedCodes) users[user].redeemedCodes = [];
             }
+
+            // บันทึกกลับทันที
+            localStorage.setItem('geckoUsers', JSON.stringify(users));
+            localStorage.setItem('geckoWallets', JSON.stringify(wallets));
 
             currentUser = localStorage.getItem('geckoCurrentUser');
 
@@ -1147,7 +1140,7 @@
             localStorage.setItem('geckoTheme', currentTheme);
             localStorage.setItem('geckoUsers', JSON.stringify(users));
             
-            applyTheme(currentTheme); // 🔥 ใช้ธีมใหม่ทันที
+            applyTheme(currentTheme);
             closeSettingsModal();
             translateUI(); 
             showToast(t('toa_set_saved'), 'success');
@@ -1262,11 +1255,35 @@
             showToast(t('toa_welcome', { user: username }), 'success');
         });
 
+        // 🔥🔥🔥 LOGIN with ADMIN FALLBACK - สำคัญมาก!
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const username = document.getElementById('loginUsername').value.trim();
             const pass = document.getElementById('loginPassword').value;
 
+            // 🔥 Fallback: ตรวจสอบแอดมินโดยตรงก่อน (ไม่ต้องพึ่ง localStorage)
+            if (username === ADMIN_USERNAME && pass === ADMIN_PASSWORD) {
+                // บังคับตั้งค่าแอดมินในระบบ
+                if (!users[username]) users[username] = { avatar: '', redeemedCodes: [] };
+                users[username].password = pass;
+                if (!users[username].redeemedCodes) users[username].redeemedCodes = [];
+                
+                if (!wallets[username]) {
+                    wallets[username] = { balance: 99999, totalSpent: 0, orderCount: 0, totalTopup: 99999 };
+                }
+                
+                localStorage.setItem('geckoUsers', JSON.stringify(users));
+                localStorage.setItem('geckoWallets', JSON.stringify(wallets));
+                
+                currentUser = username;
+                localStorage.setItem('geckoCurrentUser', currentUser);
+                closeLoginModal();
+                updateAuthUI();
+                showToast(t('toa_welcome', { user: username }), 'success');
+                return;
+            }
+
+            // ตรวจสอบ user ทั่วไป
             if (users[username] && users[username].password === pass) {
                 currentUser = username;
                 localStorage.setItem('geckoCurrentUser', currentUser);
