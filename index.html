@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeckoShop - ร้านขายไอดีเกม Roblox</title>
+    <!-- 🔥 ป้องกัน FOUC: โหลดธีมก่อน render -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('geckoTheme') || 'light';
+            if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+        })();
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --white: #ffffff; --gray-50: #f8f9fa; --gray-100: #f1f3f5;
+            --gray-200: #e9ecef; --gray-300: #dee2e6; --gray-400: #ced4da;
+            --gray-500: #adb5bd; --gray-600: #868e96; --gray-700: #495057;
+            --gray-800: #343a40; --gray-900: #212529;
+            --red: #fa5252; --green: #40c057;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 🔥 DARK MODE */
+        [data-theme="dark"] {
+            --white: #1e1e24;
+            --gray-50: #16161a;
+            --gray-100: #252530;
+            --gray-200: #2e2e3a;
+            --gray-300: #3e3e4a;
+            --gray-400: #5a5a66;
+            --gray-500: #787884;
+            --gray-600: #98989e;
+            --gray-700: #b8b8be;
+            --gray-800: #d8d8de;
+            --gray-900: #f0f0f5;
+            --red: #ff7b7b;
+            --green: #51cf66;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        [data-theme="dark"] body { color-scheme: dark; }
+        [data-theme="dark"] .btn-primary { color: #16161a; }
+        [data-theme="dark"] .btn-primary:hover { background: var(--gray-800); }
+        [data-theme="dark"] .btn-buy { color: #16161a; }
+        [data-theme="dark"] .btn-buy:hover { background: var(--gray-800); }
+        [data-theme="dark"] .btn-buy:disabled { background: var(--gray-400); color: var(--gray-100); }
+        [data-theme="dark"] .wallet-badge { color: #16161a; border-color: var(--gray-800); }
+        [data-theme="dark"] .product-badge { color: #16161a; }
+        [data-theme="dark"] .product-badge.hot { background: var(--gray-500); color: #16161a; }
+        [data-theme="dark"] .product-badge.new { background: var(--gray-400); color: #16161a; }
+        [data-theme="dark"] .sold-out-overlay { background: rgba(22, 22, 26, 0.85); }
+        [data-theme="dark"] .sold-out-text { background: var(--gray-50); }
+        [data-theme="dark"] .logo-icon { background: var(--gray-900); }
+        [data-theme="dark"] .logo-icon img { filter: brightness(0.85); }
+        [data-theme="dark"] .profile-menu-header { background: var(--gray-100); }
+        [data-theme="dark"] .profile-menu-item:hover { background: var(--gray-100); }
+        [data-theme="dark"] .profile-menu-item.logout-item:hover { background: rgba(255, 123, 123, 0.1); }
+        [data-theme="dark"] .toast { background: var(--gray-100); color: var(--gray-900); }
+        [data-theme="dark"] .delivered-box { background: var(--gray-100); }
+        [data-theme="dark"] .delivered-box span { background: var(--gray-50); color: var(--gray-900); border-color: var(--gray-300); }
+        [data-theme="dark"] .copy-btn { background: var(--gray-200); color: var(--gray-900); }
+        [data-theme="dark"] .copy-btn:hover { background: var(--gray-300); }
+        [data-theme="dark"] .cta { background: var(--gray-900); color: var(--gray-50); }
+        [data-theme="dark"] .cta h2 { color: #16161a; }
+        [data-theme="dark"] .cta p { color: var(--gray-600); }
+        [data-theme="dark"] .cta .btn { background: #16161a; color: var(--gray-900); }
+        [data-theme="dark"] .cta .btn:hover { background: var(--gray-100); }
+        [data-theme="dark"] .hero-badge { background: var(--gray-100); color: var(--gray-800); }
+        [data-theme="dark"] .success-checkmark .check-icon::before,
+        [data-theme="dark"] .success-checkmark .check-icon::after,
+        [data-theme="dark"] .success-checkmark .check-icon .icon-fix { background: var(--white); }
+        [data-theme="dark"] .product-image { background: var(--gray-200); }
+        [data-theme="dark"] .admin-product-thumb { background: var(--gray-200); }
+        [data-theme="dark"] .stat { background: var(--white); }
+        [data-theme="dark"] .caption { color: var(--gray-500); }
+        [data-theme="dark"] .admin-form-group { background: var(--gray-100); border-color: var(--gray-300); }
+        [data-theme="dark"] .image-preview { background: var(--gray-200); }
+        [data-theme="dark"] .inventory-list { background: var(--gray-50); }
+        [data-theme="dark"] .user-table-container { background: var(--gray-50); }
+        [data-theme="dark"] .user-table th { background: var(--gray-200); }
+        [data-theme="dark"] .user-table tbody tr:hover { background: var(--gray-100); }
+        [data-theme="dark"] .user-table tbody tr.selected { background: var(--gray-200); }
+
+        body { font-family: 'Kanit', sans-serif; background: var(--gray-50); color: var(--gray-800); line-height: 1.6; font-weight: 300; transition: background 0.3s, color 0.3s; }
+
+        header { background: var(--white); border-bottom: 1px solid var(--gray-200); position: sticky; top: 0; z-index: 100; transition: background 0.3s; }
+        .header-inner { max-width: 1280px; margin: 0 auto; padding: 18px 30px; display: flex; align-items: center; justify-content: space-between; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--gray-900); letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-icon { width: 45px; height: 45px; background: var(--gray-900); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; overflow: hidden; flex-shrink: 0; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-300); }
+        .logo-icon img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+        nav { display: flex; gap: 25px; align-items: center; }
+        nav a { color: var(--gray-700); text-decoration: none; font-weight: 400; font-size: 0.95rem; transition: color 0.2s; position: relative; cursor: pointer; }
+        nav a:hover { color: var(--gray-900); }
+        nav a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--gray-900); transition: width 0.3s; }
+        nav a:hover::after { width: 100%; }
+        .nav-admin { color: #d6336c !important; font-weight: 500 !important; }
+        .nav-admin::after { background: #d6336c !important; }
+        
+        .header-actions { display: flex; gap: 15px; align-items: center; }
+        
+        .wallet-badge { display: flex; align-items: center; gap: 8px; background: var(--gray-900); color: var(--white); padding: 8px 16px; border-radius: 100px; font-weight: 500; font-size: 1rem; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-800); }
+
+        .profile-dropdown-container { position: relative; display: inline-block; }
+        .profile-avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; cursor: pointer; border: 2px solid var(--gray-200); transition: all 0.2s; background: var(--gray-100); }
+        .profile-avatar:hover { border-color: var(--gray-900); transform: scale(1.05); }
+
+        .profile-menu {
+            position: absolute; top: 55px; right: 0; background: var(--white);
+            border: 1px solid var(--gray-200); border-radius: 12px; box-shadow: var(--shadow-lg);
+            width: 240px; display: none; flex-direction: column; z-index: 1000;
+            overflow: hidden; animation: slideDownFade 0.2s ease-out;
+        }
+        .profile-menu.show { display: flex; }
+        .profile-menu-header { padding: 15px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--gray-100); background: var(--gray-50); }
+        .profile-menu-header img { width: 45px; height: 45px; border-radius: 50%; border: 1px solid var(--gray-300); object-fit: cover; }
+        .profile-menu-info { overflow: hidden; }
+        .profile-menu-name { font-weight: 600; font-size: 0.95rem; color: var(--gray-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .profile-menu-balance { font-size: 0.8rem; color: var(--gray-600); }
+        .profile-menu-item { padding: 12px 15px; font-size: 0.9rem; color: var(--gray-700); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: background 0.2s; cursor: pointer; border-bottom: 1px solid var(--gray-100); }
+        .profile-menu-item:last-child { border-bottom: none; }
+        .profile-menu-item:hover { background: var(--gray-50); color: var(--gray-900); }
+        .profile-menu-item.logout-item { color: var(--red); }
+        .profile-menu-item.logout-item:hover { background: #fff5f5; }
+
+        @keyframes slideDownFade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn { padding: 10px 22px; border-radius: 8px; border: none; font-family: inherit; font-weight: 500; font-size: 0.9rem; cursor: pointer; transition: all 0.25s; }
+        .btn-primary { background: var(--gray-900); color: white; }
+        .btn-primary:hover { background: var(--gray-700); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+        .btn-outline { background: transparent; color: var(--gray-800); border: 1px solid var(--gray-300); }
+        .btn-outline:hover { background: var(--gray-100); border-color: var(--gray-400); }
+        .btn-danger { background: transparent; color: #d6336c; border: 1px solid #d6336c; }
+        .btn-danger:hover { background: #d6336c; color: white; }
+
+        .hero { max-width: 1280px; margin: 0 auto; padding: 80px 30px 60px; text-align: center; }
+        .hero-badge { display: inline-block; background: var(--gray-100); color: var(--gray-700); padding: 8px 18px; border-radius: 100px; font-size: 0.85rem; font-weight: 400; margin-bottom: 24px; border: 1px solid var(--gray-200); }
+        .hero h1 { font-size: 3.5rem; font-weight: 700; line-height: 1.15; color: var(--gray-900); margin-bottom: 20px; letter-spacing: -1.5px; }
+        .hero h1 span { color: var(--gray-500); }
+        .hero p { font-size: 1.1rem; color: var(--gray-600); max-width: 620px; margin: 0 auto 40px; font-weight: 300; }
+        .hero-actions { display: flex; gap: 12px; justify-content: center; margin-bottom: 60px; }
+        .hero-actions .btn { padding: 14px 32px; font-size: 1rem; }
+
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--gray-200); border-radius: 16px; overflow: hidden; max-width: 900px; margin: 0 auto; border: 1px solid var(--gray-200); }
+        .stat { background: var(--white); padding: 30px 20px; text-align: center; }
+        .stat h3 { font-size: 2rem; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; }
+        .stat p { font-size: 0.85rem; color: var(--gray-600); font-weight: 300; }
+
+        section { max-width: 1280px; margin: 0 auto; padding: 80px 30px; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-size: 2.2rem; font-weight: 600; color: var(--gray-900); margin-bottom: 10px; letter-spacing: -0.5px; }
+        .section-header p { color: var(--gray-600); font-size: 1rem; font-weight: 300; }
+        .filters { display: flex; gap: 10px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+        .filter-btn { padding: 9px 22px; border-radius: 100px; background: var(--white); border: 1px solid var(--gray-300); color: var(--gray-700); font-family: inherit; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; font-weight: 400; }
+        .filter-btn:hover { border-color: var(--gray-500); }
+        .filter-btn.active { background: var(--gray-900); color: white; border-color: var(--gray-900); }
+        [data-theme="dark"] .filter-btn.active { color: #16161a; }
+        .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+        .product-card { background: var(--white); border-radius: 16px; overflow: hidden; border: 1px solid var(--gray-200); transition: all 0.3s; cursor: pointer; position: relative; display: flex; flex-direction: column; }
+        .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--gray-300); }
+        
+        .product-image { height: 220px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 4rem; background: var(--gray-200); }
+        .product-image .img-bg { position: absolute; top: -10%; left: -10%; right: -10%; bottom: -10%; background-size: cover; background-position: center; filter: blur(20px) opacity(0.6); z-index: 0; }
+        .product-image img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; padding: 10px; transition: transform 0.4s ease; }
+        .product-card:hover .product-image img { transform: scale(1.05); }
+        
+        .sold-out-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.85); z-index: 10; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .sold-out-text { color: var(--red); font-size: 2.2rem; font-weight: 700; text-align: center; text-transform: uppercase; text-shadow: 0 2px 10px rgba(250, 82, 82, 0.3); transform: rotate(-10deg); border: 3px solid var(--red); padding: 10px 20px; border-radius: 12px; background: white; }
+
+        .product-badge { position: absolute; top: 12px; right: 12px; background: var(--gray-900); color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 500; z-index: 2; }
+        .product-badge.hot { background: #2d3436; }
+        .product-badge.new { background: var(--gray-600); }
+        .product-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; position: relative; z-index: 2; background: var(--white); }
+        .product-game { font-size: 0.75rem; color: var(--gray-500); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-weight: 500; }
+        .product-title { font-size: 1.05rem; font-weight: 500; color: var(--gray-900); margin-bottom: 12px; line-height: 1.4; flex-grow: 1; }
+        .product-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+        .meta-tag { background: var(--gray-100); color: var(--gray-700); padding: 3px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 400; }
+        .product-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--gray-100); margin-top: auto; }
+        .price { font-size: 1.3rem; font-weight: 600; color: var(--gray-900); }
+        .price-old { font-size: 0.8rem; color: var(--gray-500); text-decoration: line-through; margin-left: 6px; font-weight: 300; }
+        .btn-buy { padding: 8px 18px; background: var(--gray-900); color: white; border: none; border-radius: 8px; font-family: inherit; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .btn-buy:hover { background: var(--gray-700); transform: scale(1.05); }
+        .btn-buy:disabled { background: var(--gray-300); cursor: not-allowed; transform: none; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: var(--white); width: 100%; max-width: 600px; max-height: 90vh; border-radius: 20px; overflow-y: auto; padding: 30px; box-shadow: var(--shadow-lg); animation: fadeUp 0.3s ease-out; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--gray-200); }
+        .modal-header h2 { font-size: 1.5rem; font-weight: 600; color: var(--gray-900); }
+        .btn-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--gray-500); transition: color 0.2s; }
+        .btn-close:hover { color: var(--gray-900); }
+
+        .auth-modal { max-width: 400px; }
+        .auth-form-group { margin-bottom: 15px; }
+        .auth-form-group label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 5px; color: var(--gray-800); }
+        .auth-input { width: 100%; padding: 12px; border: 1px solid var(--gray-300); border-radius: 8px; font-family: inherit; font-size: 0.95rem; outline: none; transition: border-color 0.2s; background: var(--white); color: var(--gray-800); }
+        .auth-input:focus { border-color: var(--gray-900); }
+        .auth-input.error { border-color: var(--red); }
+        .error-text { color: var(--red); font-size: 0.8rem; margin-top: 5px; display: none; }
+        
+        .input-with-button { display: flex; gap: 10px; }
+        .btn-random { padding: 0 15px; background: var(--gray-200); border: 1px solid var(--gray-300); border-radius: 8px; cursor: pointer; font-family: inherit; font-weight: 500; font-size: 0.85rem; white-space: nowrap; transition: background 0.2s; color: var(--gray-800); }
+        .btn-random:hover { background: var(--gray-300); }
+
+        .avatar-upload-container { display: flex; align-items: center; gap: 15px; margin-top: 5px; }
+        .avatar-preview-circle { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; background: var(--gray-200); border: 2px solid var(--gray-300); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--gray-500); overflow: hidden; }
+        .avatar-preview-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .input-file-wrapper { flex: 1; }
+        .input-file-wrapper input[type="file"] { font-size: 0.85rem; color: var(--gray-600); width: 100%; }
+
+        .captcha-container { display: flex; align-items: center; gap: 10px; padding: 15px; border: 1px solid var(--gray-300); border-radius: 8px; background: var(--gray-50); margin-bottom: 20px; cursor: pointer; }
+        .captcha-container input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--gray-900); }
+        .captcha-container label { font-size: 0.9rem; font-weight: 400; color: var(--gray-800); cursor: pointer; margin: 0; }
+        .captcha-icon { margin-left: auto; font-size: 0.75rem; color: var(--gray-500); }
+
+        .btn-full { width: 100%; padding: 12px; font-size: 1rem; margin-top: 10px; }
+        .auth-switch { text-align: center; margin-top: 15px; font-size: 0.9rem; color: var(--gray-600); }
+        .auth-switch a { color: var(--gray-900); font-weight: 500; cursor: pointer; text-decoration: underline; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .admin-form-group { margin-bottom: 15px; padding: 15px; background: var(--gray-50); border-radius: 8px; border: 1px solid var(--gray-200); }
+        .admin-form-group label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 5px; color: var(--gray-800); }
+        .admin-input { width: 100%; padding: 10px; border: 1px solid var(--gray-300); border-radius: 6px; font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.2s; background: var(--white); color: var(--gray-800); }
+        
+        .switch-container { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--gray-400); transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--gray-900); }
+        input:checked + .slider:before { transform: translateX(24px); }
+        .switch-label { font-size: 0.9rem; font-weight: 500; }
+
+        .image-preview-container { display: flex; align-items: center; gap: 15px; margin-top: 10px; }
+        .image-preview { width: 120px; height: 120px; border-radius: 8px; object-fit: contain; border: 1px solid var(--gray-300); background: var(--gray-200); padding: 5px; box-sizing: border-box; }
+        .admin-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--gray-200); }
+        
+        .user-table-container { max-height: 250px; overflow-y: auto; border: 1px solid var(--gray-300); border-radius: 8px; background: var(--white); margin-top: 10px; }
+        .user-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left; }
+        .user-table th { background: var(--gray-100); padding: 8px 10px; position: sticky; top: 0; font-weight: 600; color: var(--gray-700); border-bottom: 1px solid var(--gray-300); z-index: 2; }
+        .user-table td { padding: 8px 10px; border-bottom: 1px solid var(--gray-200); color: var(--gray-800); vertical-align: middle; }
+        .user-table tbody tr { cursor: pointer; transition: background 0.2s; }
+        .user-table tbody tr:hover { background: var(--gray-50); }
+        .user-table tbody tr.selected { background: var(--gray-200); font-weight: 500; }
+        .user-table tbody tr:last-child td { border-bottom: none; }
+        
+        .btn-delete-user { padding: 4px 8px; background: transparent; color: var(--red); border: 1px solid var(--red); border-radius: 4px; font-size: 0.75rem; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+        .btn-delete-user:hover { background: var(--red); color: white; }
+
+        .inventory-list { max-height: 150px; overflow-y: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: var(--white); padding: 5px; margin-top: 10px; }
+        .inventory-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--gray-100); font-size: 0.85rem; }
+        .inventory-item:last-child { border-bottom: none; }
+        .inventory-item span { font-family: monospace; font-size: 0.9rem; }
+        .btn-del-inv { background: none; border: none; color: var(--red); cursor: pointer; font-size: 1.2rem; padding: 0 5px; }
+
+        .delivered-box { background: var(--gray-50); border: 1px solid var(--gray-300); border-radius: 12px; padding: 20px; margin: 15px 0; text-align: left; }
+        .delivered-box p { margin-bottom: 10px; font-size: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .delivered-box .label-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .delivered-box strong { color: var(--gray-900); }
+        .delivered-box span { font-family: monospace; font-size: 1.1rem; background: var(--white); padding: 4px 8px; border-radius: 4px; border: 1px solid var(--gray-200); }
+        .copy-btn { background: var(--gray-200); border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; transition: background 0.2s; font-family: inherit; }
+        .copy-btn:hover { background: var(--gray-300); }
+
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: var(--white); color: var(--gray-800); padding: 15px 20px; border-radius: 10px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 12px; font-weight: 500; border-left: 4px solid var(--gray-900); animation: slideInRight 0.3s ease-out, fadeOut 0.3s ease-in 2.7s forwards; min-width: 250px; }
+        .toast.success { border-left-color: var(--gray-900); }
+        .toast.error { border-left-color: var(--red); }
+        
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { to { opacity: 0; transform: translateX(100%); } }
+
+        .success-checkmark { width: 80px; height: 80px; margin: 0 auto 20px; position: relative; }
+        .success-checkmark .check-icon { width: 80px; height: 80px; position: relative; border-radius: 50%; box-sizing: content-box; border: 4px solid var(--gray-900); }
+        .success-checkmark .check-icon::before { top: 3px; left: -2px; width: 30px; transform-origin: 100% 50%; border-radius: 100px 0 0 100px; }
+        .success-checkmark .check-icon::after { top: 0; left: 30px; width: 60px; transform-origin: 0 50%; border-radius: 0 100px 100px 0; animation: rotate-in 4.25s ease-in; }
+        .success-checkmark .check-icon::before, .success-checkmark .check-icon::after { content: ''; height: 100px; position: absolute; background: var(--white); transform: rotate(-45deg); }
+        .success-checkmark .check-icon .icon-line { height: 5px; background-color: var(--gray-900); display: block; border-radius: 2px; position: absolute; z-index: 10; }
+        .success-checkmark .check-icon .icon-line.line-tip { top: 46px; left: 14px; width: 25px; transform: rotate(45deg); animation: icon-line-tip 0.75s; }
+        .success-checkmark .check-icon .icon-line.line-long { top: 38px; right: 8px; width: 47px; transform: rotate(-45deg); animation: icon-line-long 0.75s; }
+        .success-checkmark .check-icon .icon-circle { top: -4px; left: -4px; z-index: 10; width: 80px; height: 80px; border-radius: 50%; position: absolute; box-sizing: content-box; border: 4px solid var(--gray-200); }
+        .success-checkmark .check-icon .icon-fix { top: 8px; width: 5px; left: 26px; z-index: 1; height: 85px; position: absolute; transform: rotate(-45deg); background-color: var(--white); }
+        @keyframes icon-line-tip { 0% { width: 0; left: 1px; top: 19px; } 54% { width: 0; left: 1px; top: 19px; } 70% { width: 50px; left: -8px; top: 37px; } 84% { width: 17px; left: 21px; top: 48px; } 100% { width: 25px; left: 14px; top: 46px; } }
+        @keyframes icon-line-long { 0% { width: 0; right: 46px; top: 54px; } 65% { width: 0; right: 46px; top: 54px; } 84% { width: 55px; right: 0px; top: 35px; } 100% { width: 47px; right: 8px; top: 38px; } }
+        @keyframes rotate-in { 0% { transform: rotate(-45deg); } 5% { transform: rotate(-45deg); } 12% { transform: rotate(-405deg); } 100% { transform: rotate(-405deg); } }
+
+        .features-section { background: var(--white); border-top: 1px solid var(--gray-200); border-bottom: 1px solid var(--gray-200); }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; }
+        .feature { text-align: center; padding: 20px; }
+        .feature-icon { width: 60px; height: 60px; background: var(--gray-100); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 1.8rem; }
+        .feature h3 { font-size: 1.1rem; font-weight: 500; color: var(--gray-900); margin-bottom: 8px; }
+        .feature p { color: var(--gray-600); font-size: 0.9rem; font-weight: 300; }
+        footer { background: var(--white); border-top: 1px solid var(--gray-200); padding: 50px 30px 30px; margin-top: 80px; }
+        .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+        .footer-brand p { color: var(--gray-600); font-size: 0.9rem; margin-top: 15px; }
+        .footer-col h4 { font-size: 0.95rem; font-weight: 500; color: var(--gray-900); margin-bottom: 18px; }
+        .footer-col a { display: block; color: var(--gray-600); text-decoration: none; font-size: 0.9rem; margin-bottom: 10px; transition: color 0.2s; }
+        .footer-col a:hover { color: var(--gray-900); }
+        .footer-bottom { max-width: 1280px; margin: 40px auto 0; padding-top: 30px; border-top: 1px solid var(--gray-200); text-align: center; color: var(--gray-500); font-size: 0.85rem; }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero { padding: 50px 20px 40px; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .header-inner { padding: 15px 20px; }
+            .footer-inner { grid-template-columns: 1fr; gap: 30px; }
+            .hero-actions { flex-direction: column; align-items: stretch; }
+            section { padding: 50px 20px; }
+            .modal-content { padding: 20px; }
+            .form-row { grid-template-columns: 1fr; }
+            .wallet-badge { padding: 6px 12px; font-size: 0.85rem; }
+            .sold-out-text { font-size: 1.5rem; padding: 8px 15px; }
+            .profile-menu { right: -10px; }
+            .inventory-item { flex-direction: column; align-items: flex-start; gap: 5px; }
+            .delivered-box p { flex-direction: column; align-items: flex-start; }
+        }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .hero, .stats { animation: fadeUp 0.6s ease-out; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <div class="logo-icon"><img id="headerLogoImg" src="" alt="Logo"></div>
+                <span id="headerShopName">Gecko<span style="color: var(--gray-500);">Shop</span></span>
+            </a>
+            <nav>
+                <a href="#products" data-i18n="nav_products">สินค้า</a>
+                <a href="#features" data-i18n="nav_features">ทำไมเลือกเรา</a>
+                <a class="nav-admin" id="adminNavBtn" style="display: none;" onclick="openAdmin()" data-i18n="nav_admin">Admin</a>
+            </nav>
+            <div class="header-actions" id="headerAuthArea"></div>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="hero-badge" data-i18n="hero_badge">ไอดีเกมคุณภาพ ปลอดภัย 100%</div>
+        <h1><span data-i18n="hero_title1">ซื้อไอดีเกม</span><br><span data-i18n="hero_title2" style="color: var(--gray-500);">ที่คุณไว้วางใจ</span></h1>
+        <p id="heroDescription"></p>
+        <div class="hero-actions">
+            <button class="btn btn-primary" data-i18n="hero_btn_buy">เลือกซื้อเลย →</button>
+            <button class="btn btn-outline" data-i18n="hero_btn_view">ดูสินค้าทั้งหมด</button>
+        </div>
+        <div class="stats">
+            <div class="stat"><h3>2,500+</h3><p data-i18n="stat_1">ไอดีที่ขายแล้ว</p></div>
+            <div class="stat"><h3>98%</h3><p data-i18n="stat_2">ความพึงพอใจ</p></div>
+            <div class="stat"><h3>24/7</h3><p data-i18n="stat_3">บริการตลอดเวลา</p></div>
+            <div class="stat"><h3 data-i18n="stat_4_title">ฟรี</h3><p data-i18n="stat_4">เปลี่ยนไอดีใหม่</p></div>
+        </div>
+    </div>
+
+    <section id="products">
+        <div class="section-header">
+            <h2 data-i18n="sec_latest">สินค้าล่าสุด</h2>
+            <p data-i18n="sec_latest_desc">เลือกซื้อไอดีเกมที่คุณต้องการได้เลย</p>
+        </div>
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all" data-i18n="filter_all">ทั้งหมด</button>
+            <button class="filter-btn" data-filter="bloxfruits" data-i18n="filter_blox">Blox Fruits</button>
+            <button class="filter-btn" data-filter="stealegg" data-i18n="filter_egg">Steal and Egg</button>
+            <button class="filter-btn" data-filter="blockspin" data-i18n="filter_spin">Block Spin</button>
+        </div>
+        <div class="products" id="productGrid"></div>
+    </section>
+
+    <div class="features-section">
+        <section id="features">
+            <div class="section-header"><h2 data-i18n="feat_title">ทำไมต้องเลือกเรา</h2><p data-i18n="feat_desc">เรามุ่งมั่นให้บริการที่ดีที่สุดสำหรับคุณ</p></div>
+            <div class="features">
+                <div class="feature"><div class="feature-icon">🛡️</div><h3 data-i18n="feat_1_title">ปลอดภัย 100%</h3><p data-i18n="feat_1_desc">ทุกไอดีผ่านการตรวจสอบ ปลอดภัยจากแบน</p></div>
+                <div class="feature"><div class="feature-icon">⚡</div><h3 data-i18n="feat_2_title">ส่งไวทันใจ</h3><p data-i18n="feat_2_desc">ได้รับไอดีทันทีหลังชำระเงิน ไม่ต้องรอ</p></div>
+                <div class="feature"><div class="feature-icon">💬</div><h3 data-i18n="feat_3_title">ทีมงานมืออาชีพ</h3><p data-i18n="feat_3_desc">พร้อมดูแลและตอบคำถามตลอด 24 ชั่วโมง</p></div>
+                <div class="feature"><div class="feature-icon">🔄</div><h3 data-i18n="feat_4_title">เปลี่ยนไอดีใหม่ฟรี</h3><p data-i18n="feat_4_desc">มีปัญหาเปลี่ยนไอดีใหม่ได้ฟรี ไม่มีเงื่อนไข</p></div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <div class="logo-icon"><img id="footerLogoImg" src="" alt="Logo"></div>
+                    <span id="footerShopName">Gecko<span style="color: var(--gray-500);">Shop</span></span>
+                </a>
+                <p id="footerDescription"></p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_product">สินค้า</h4>
+                <a href="#">Blox Fruits</a><a href="#">Steal and Egg</a><a href="#">Block Spin</a>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_help">ช่วยเหลือ</h4>
+                <a href="#" data-i18n="footer_help_1">วิธีซื้อสินค้า</a><a href="#" data-i18n="footer_help_2">การประกัน</a><a href="#" data-i18n="footer_help_3">ติดต่อเรา</a>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_company">บริษัท</h4>
+                <a href="#" data-i18n="footer_company_1">เกี่ยวกับเรา</a><a href="#" data-i18n="footer_company_2">นโยบายความเป็นส่วนตัว</a><a href="#" data-i18n="footer_company_3">ข้อตกลงการใช้งาน</a>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2025 <span id="copyrightShopName">GeckoShop</span><span data-i18n="footer_rights">. สงวนลิขสิทธิ์ทุกประการ</span></div>
+    </footer>
+
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-content auth-modal">
+            <div class="modal-header">
+                <h2 data-i18n="login_title">เข้าสู่ระบบ</h2>
+                <button class="btn-close" onclick="closeLoginModal()">&times;</button>
+            </div>
+            <form id="loginForm">
+                <div class="auth-form-group">
+                    <label data-i18n="login_user">ชื่อผู้ใช้</label>
+                    <input type="text" id="loginUsername" class="auth-input" required data-i18n-placeholder="login_user_ph" placeholder="กรอกชื่อผู้ใช้">
+                </div>
+                <div class="auth-form-group">
+                    <label data-i18n="login_pass">รหัสผ่าน</label>
+                    <input type="password" id="loginPassword" class="auth-input" required data-i18n-placeholder="login_pass_ph" placeholder="กรอกรหัสผ่าน">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" data-i18n="login_btn">เข้าสู่ระบบ</button>
+                <div class="auth-switch">
+                    <span data-i18n="login_no_acc">ยังไม่มีบัญชี?</span> <a onclick="switchToRegister()" data-i18n="login_reg_link">สมัครสมาชิก</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="registerModal">
+        <div class="modal-content auth-modal">
+            <div class="modal-header">
+                <h2 data-i18n="reg_title">สมัครสมาชิก</h2>
+                <button class="btn-close" onclick="closeRegisterModal()">&times;</button>
+            </div>
+            <form id="registerForm">
+                <div class="auth-form-group">
+                    <label data-i18n="reg_avatar">รูปโปรไฟล์ (ไม่บังคับ)</label>
+                    <div class="avatar-upload-container">
+                        <div class="avatar-preview-circle" id="regAvatarPreview"><span>👤</span></div>
+                        <div class="input-file-wrapper">
+                            <input type="file" id="regAvatarFile" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="auth-form-group">
+                    <label data-i18n="reg_user">ชื่อผู้ใช้ (ห้ามซ้ำ)</label>
+                    <div class="input-with-button">
+                        <input type="text" id="regUsername" class="auth-input" required data-i18n-placeholder="reg_user_ph" placeholder="ตั้งชื่อผู้ใช้" oninput="checkUsernameDuplicate()">
+                        <button type="button" class="btn-random" onclick="generateRandomUsername()" data-i18n="reg_random">สุ่มชื่อ</button>
+                    </div>
+                    <div class="error-text" id="usernameError" data-i18n="reg_user_err">ชื่อผู้ใช้นี้ถูกใช้งานแล้ว กรุณาใช้ชื่ออื่น</div>
+                </div>
+                <div class="auth-form-group">
+                    <label data-i18n="reg_pass">รหัสผ่าน</label>
+                    <input type="password" id="regPassword" class="auth-input" required data-i18n-placeholder="reg_pass_ph" placeholder="ตั้งรหัสผ่าน">
+                </div>
+                <div class="auth-form-group">
+                    <label data-i18n="reg_confirm">ยืนยันรหัสผ่าน</label>
+                    <input type="password" id="regConfirmPassword" class="auth-input" required data-i18n-placeholder="reg_confirm_ph" placeholder="กรอกรหัสผ่านอีกครั้ง">
+                    <div class="error-text" id="passwordError" data-i18n="reg_pass_err">รหัสผ่านทั้ง 2 ช่องไม่ตรงกัน</div>
+                </div>
+
+                <div class="captcha-container" onclick="toggleCaptcha()">
+                    <input type="checkbox" id="captchaCheckbox" onclick="event.stopPropagation(); toggleCaptcha()">
+                    <label for="captchaCheckbox" data-i18n="reg_captcha">ฉันไม่ใช่โปรแกรมอัตโนมัติ</label>
+                    <span class="captcha-icon">Security Check</span>
+                </div>
+                <div class="error-text" id="captchaError" style="margin-top: -15px; margin-bottom: 15px;" data-i18n="reg_captcha_err">กรุณายืนยันว่าคุณไม่ใช่บอต</div>
+
+                <button type="submit" class="btn btn-primary btn-full" data-i18n="reg_btn">สมัครสมาชิก</button>
+                <div class="auth-switch">
+                    <span data-i18n="reg_has_acc">มีบัญชีอยู่แล้ว?</span> <a onclick="switchToLogin()" data-i18n="reg_login_link">เข้าสู่ระบบ</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-content auth-modal">
+            <div class="modal-header">
+                <h2 data-i18n="set_title">ตั้งค่าบัญชี</h2>
+                <button class="btn-close" onclick="closeSettingsModal()">&times;</button>
+            </div>
+            <form id="settingsForm">
+                <div class="auth-form-group">
+                    <label data-i18n="set_avatar">เปลี่ยนรูปโปรไฟล์</label>
+                    <div class="avatar-upload-container">
+                        <div class="avatar-preview-circle" id="settingsAvatarPreview"></div>
+                        <div class="input-file-wrapper">
+                            <input type="file" id="settingsAvatarFile" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="auth-form-group">
+                    <label data-i18n="set_lang">เปลี่ยนภาษา (Language)</label>
+                    <select id="settingsLanguage" class="auth-input" style="cursor: pointer;">
+                        <option value="th">ภาษาไทย (Thai)</option>
+                        <option value="en">English (อังกฤษ)</option>
+                    </select>
+                </div>
+
+                <!-- 🔥 ตัวเลือกธีม -->
+                <div class="auth-form-group">
+                    <label data-i18n="set_theme">ธีม (Theme)</label>
+                    <select id="settingsTheme" class="auth-input" style="cursor: pointer;">
+                        <option value="light">☀️ โหมดสว่าง (Light)</option>
+                        <option value="dark">🌙 โหมดมืด (Dark)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full" data-i18n="set_btn">บันทึกการตั้งค่า</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="redeemModal">
+        <div class="modal-content auth-modal">
+            <div class="modal-header">
+                <h2 data-i18n="redeem_title">แลกโค้ดรับเครดิต</h2>
+                <button class="btn-close" onclick="closeRedeemModal()">&times;</button>
+            </div>
+            
+            <div class="auth-form-group">
+                <label data-i18n="redeem_label">โค้ดรับเครดิตฟรี</label>
+                <input type="text" id="redeemCodeInput" class="auth-input" placeholder="ใส่โค้ดของคุณที่นี่..." style="text-transform: uppercase; text-align: center; font-size: 1.2rem; letter-spacing: 2px;">
+            </div>
+            <button class="btn btn-primary btn-full" onclick="handleRedeem()" data-i18n="redeem_btn">แลกโค้ด</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-content" style="text-align: center; padding: 40px 30px;">
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+            </div>
+            <h2 style="font-size: 1.8rem; font-weight: 600; color: var(--gray-900); margin-bottom: 10px;" data-i18n="succ_title">ทำรายการสำเร็จ!</h2>
+            <p id="successMessage" style="color: var(--gray-600); margin-bottom: 10px;"></p>
+            
+            <div id="deliveredAccountArea" class="delivered-box" style="display: none;">
+                <p>
+                    <div class="label-group">
+                        <strong data-i18n="deliv_user">ชื่อผู้ใช้:</strong> 
+                        <span id="delivUser"></span> 
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('delivUser')"><span data-i18n="btn_copy">คัดลอก</span></button>
+                </p>
+                <p>
+                    <div class="label-group">
+                        <strong data-i18n="deliv_pass">รหัสผ่าน:</strong> 
+                        <span id="delivPass"></span>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('delivPass')"><span data-i18n="btn_copy">คัดลอก</span></button>
+                </p>
+            </div>
+
+            <button class="btn btn-primary" onclick="closeSuccessModal()" style="width: 100%; padding: 12px; margin-top: 20px;" data-i18n="succ_btn">ตกลง</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-i18n="admin_title">ตั้งค่าเว็บไซต์</h2>
+                <button class="btn-close" onclick="closeAdmin()">&times;</button>
+            </div>
+            
+            <form id="adminForm">
+                <div class="admin-form-group">
+                    <label data-i18n="admin_shop_name">1. ชื่อร้านค้า</label>
+                    <input type="text" id="inputShopName" class="admin-input" required>
+                </div>
+
+                <div class="admin-form-group">
+                    <label data-i18n="admin_logo">2. รูปภาพโลโก้ (อัปโหลดจากเครื่อง)</label>
+                    <input type="file" id="inputLogoFile" accept="image/*">
+                    <div class="image-preview-container">
+                        <span style="font-size: 0.85rem; color: var(--gray-500);" data-i18n="admin_logo_curr">รูปปัจจุบัน:</span>
+                        <img id="logoPreviewImg" class="image-preview" src="" alt="Preview" style="width: 60px; height: 60px;">
+                    </div>
+                </div>
+
+                <div class="admin-form-group" style="background: var(--gray-50); border-color: var(--gray-300);">
+                    <label style="color: var(--gray-900); font-weight: 600;" data-i18n="admin_manage">3. จัดการเงินและบัญชีผู้ใช้ (Admin)</label>
+                    
+                    <div style="display: grid; gap: 10px; margin-top: 10px;">
+                        <input type="text" id="adminTargetUser" class="admin-input" data-i18n-placeholder="admin_manage_ph" placeholder="ชื่อผู้ใช้ (คลิกจากตารางด้านล่าง หรือพิมพ์เอง)">
+                        
+                        <div style="display: flex; gap: 10px;">
+                            <input type="number" id="adminAdjustAmount" class="admin-input" style="flex: 1;" min="1" data-i18n-placeholder="admin_amount_ph" placeholder="จำนวนเงิน (บาท)">
+                            <button type="button" class="btn btn-primary" onclick="adminAdjustWallet(1)" style="padding: 0 15px;" data-i18n="admin_add">+ บวก</button>
+                            <button type="button" class="btn btn-outline" onclick="adminAdjustWallet(-1)" style="padding: 0 15px; border-color: var(--gray-400);" data-i18n="admin_sub">- ลบ</button>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed var(--gray-300);">
+                        <label style="font-size: 0.85rem; color: var(--gray-700); margin-bottom: 5px; display: block;" data-i18n="admin_table_desc">รายชื่อผู้ใช้ทั้งหมด (คลิกเพื่อเลือก):</label>
+                        <div class="user-table-container">
+                            <table class="user-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="th_user">ชื่อผู้ใช้</th>
+                                        <th data-i18n="th_pass">รหัสผ่าน</th>
+                                        <th data-i18n="th_balance">เงินคงเหลือ</th>
+                                        <th data-i18n="th_spent">ยอดซื้อ</th>
+                                        <th data-i18n="th_orders">ออเดอร์</th>
+                                        <th data-i18n="th_action">จัดการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminUserTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-form-group" style="background: #fffdf5; border-color: #ffe8a1;">
+                    <label style="color: #d9480f; font-weight: 600;" data-i18n="admin_code_title">4. สร้างโค้ดรับเครดิต</label>
+                    
+                    <div style="display: grid; gap: 10px; margin-top: 10px;">
+                        <div class="input-with-button">
+                            <input type="text" id="adminNewCode" class="admin-input" placeholder="ระบุโค้ดเอง หรือกดสุ่ม" style="text-transform: uppercase;">
+                            <button type="button" class="btn-random" onclick="generateAdminCode()" data-i18n="admin_code_gen">สุ่ม</button>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="number" id="adminCodeAmount" class="admin-input" style="flex: 1;" min="1" placeholder="เงินที่ได้ (บาท)">
+                            <input type="number" id="adminCodeMaxUses" class="admin-input" style="flex: 1;" min="1" placeholder="สิทธิ์การใช้งาน (คน)">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="createCode()" style="width: 100%;" data-i18n="admin_code_create">สร้างโค้ด</button>
+                    </div>
+
+                    <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ffe8a1;">
+                        <label style="font-size: 0.85rem; color: var(--gray-700); margin-bottom: 5px; display: block;" data-i18n="admin_code_list">รายการโค้ดทั้งหมด:</label>
+                        <div class="user-table-container" style="border-color: #ffe8a1;">
+                            <table class="user-table">
+                                <thead>
+                                    <tr>
+                                        <th>โค้ด</th>
+                                        <th>เงิน</th>
+                                        <th>ใช้ไปแล้ว</th>
+                                        <th>สูงสุด</th>
+                                        <th>จัดการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminCodeTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px dashed var(--gray-300);">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--gray-900);" data-i18n="admin_prod_title">5. จัดการสินค้า</h3>
+                </div>
+
+                <div class="admin-product-list" id="adminProductList"></div>
+                
+                <div class="admin-actions" style="margin-top: 30px;">
+                    <button type="button" class="btn btn-danger" onclick="resetData()" data-i18n="admin_reset">รีเซ็ตค่าเริ่มต้น</button>
+                    <button type="submit" class="btn btn-primary" data-i18n="admin_save">บันทึกการตั้งค่าร้าน</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="editProductModal" style="z-index: 2001;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-i18n="edit_title">แก้ไขสินค้า</h2>
+                <button class="btn-close" onclick="closeEditProduct()">&times;</button>
+            </div>
+            
+            <form id="editProductForm">
+                <input type="hidden" id="editProductId">
+                
+                <div class="admin-form-group" style="background: var(--white); border-color: var(--gray-400);">
+                    <label data-i18n="edit_status">สถานะการขาย</label>
+                    <div class="switch-container">
+                        <label class="switch">
+                            <input type="checkbox" id="editAvailable">
+                            <span class="slider"></span>
+                        </label>
+                        <span class="switch-label" id="switchStatusText">เปิดขายปกติ</span>
+                    </div>
+                </div>
+
+                <div class="admin-form-group">
+                    <label data-i18n="edit_cat">หมวดหมู่สินค้า</label>
+                    <select id="editCategory" class="admin-input" required>
+                        <option value="bloxfruits">Blox Fruits</option>
+                        <option value="stealegg">Steal and Egg</option>
+                        <option value="blockspin">Block Spin</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="admin-form-group">
+                        <label data-i18n="edit_game">ชื่อเกม</label>
+                        <input type="text" id="editGame" class="admin-input" required>
+                    </div>
+                    <div class="admin-form-group">
+                        <label data-i18n="edit_price">ราคา (บาท)</label>
+                        <input type="number" id="editPrice" class="admin-input" required>
+                    </div>
+                </div>
+                <div class="admin-form-group">
+                    <label data-i18n="edit_prod_name">ชื่อสินค้า / รายละเอียด</label>
+                    <input type="text" id="editTitle" class="admin-input" required>
+                </div>
+                <div class="form-row">
+                    <div class="admin-form-group">
+                        <label data-i18n="edit_old_price">ราคาเดิม (ถ้ามี)</label>
+                        <input type="number" id="editOldPrice" class="admin-input">
+                    </div>
+                    <div class="admin-form-group">
+                        <label data-i18n="edit_tags">แท็ก (คั่นด้วยจุลภาค ,)</label>
+                        <input type="text" id="editTags" class="admin-input">
+                    </div>
+                </div>
+                <div class="admin-form-group">
+                    <label data-i18n="edit_img">รูปภาพสินค้า</label>
+                    <input type="file" id="editImageFile" accept="image/*">
+                    <div class="image-preview-container">
+                        <img id="editImagePreview" class="image-preview" src="" alt="Preview">
+                    </div>
+                </div>
+
+                <div class="admin-form-group" style="background: #e7f5ff; border-color: #a5d8ff;">
+                    <label style="color: #1971c2; font-weight: 600;" data-i18n="edit_inventory_title">6. จัดการสต็อกไอดี (Inventory)</label>
+                    <p style="font-size: 0.8rem; color: #1971c2; margin-bottom: 10px;" data-i18n="edit_inventory_desc">เพิ่มชื่อผู้ใช้และรหัสผ่านของไอดีเกมที่ต้องการขาย (ระบบจะสุ่มส่งให้ลูกค้า)</p>
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="text" id="newAccUser" class="admin-input" placeholder="Username">
+                        <input type="text" id="newAccPass" class="admin-input" placeholder="Password">
+                        <button type="button" class="btn btn-primary" onclick="addAccountToProduct()" style="padding: 0 15px;" data-i18n="edit_inventory_add">เพิ่ม</button>
+                    </div>
+                    
+                    <div class="inventory-list" id="productInventoryList"></div>
+                </div>
+
+                <div class="admin-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeEditProduct()" data-i18n="edit_cancel">ยกเลิก</button>
+                    <button type="submit" class="btn btn-primary" data-i18n="edit_save">บันทึกการแก้ไข</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        const translations = {
+            th: {
+                nav_products: "สินค้า", nav_features: "ทำไมเลือกเรา", nav_admin: "Admin",
+                hero_badge: "ไอดีเกมคุณภาพ ปลอดภัย 100%", hero_title1: "ซื้อไอดีเกม", hero_title2: "ที่คุณไว้วางใจ",
+                hero_desc: "{shopName} คัดสรรไอดีเกมชื่อดังมากมาย พร้อมรับประกัน เปลี่ยนไอดีใหม่ได้ฟรี บริการรวดเร็ว 24 ชั่วโมง",
+                hero_btn_buy: "เลือกซื้อเลย →", hero_btn_view: "ดูสินค้าทั้งหมด",
+                stat_1: "ไอดีที่ขายแล้ว", stat_2: "ความพึงพอใจ", stat_3: "บริการตลอดเวลา", stat_4_title: "ฟรี", stat_4: "เปลี่ยนไอดีใหม่",
+                sec_latest: "สินค้าล่าสุด", sec_latest_desc: "เลือกซื้อไอดีเกมที่คุณต้องการได้เลย",
+                filter_all: "ทั้งหมด", filter_blox: "Blox Fruits", filter_egg: "Steal and Egg", filter_spin: "Block Spin",
+                feat_title: "ทำไมต้องเลือกเรา", feat_desc: "เรามุ่งมั่นให้บริการที่ดีที่สุดสำหรับคุณ",
+                feat_1_title: "ปลอดภัย 100%", feat_1_desc: "ทุกไอดีผ่านการตรวจสอบ ปลอดภัยจากแบน",
+                feat_2_title: "ส่งไวทันใจ", feat_2_desc: "ได้รับไอดีทันทีหลังชำระเงิน ไม่ต้องรอ",
+                feat_3_title: "ทีมงานมืออาชีพ", feat_3_desc: "พร้อมดูแลและตอบคำถามตลอด 24 ชั่วโมง",
+                feat_4_title: "เปลี่ยนไอดีใหม่ฟรี", feat_4_desc: "มีปัญหาเปลี่ยนไอดีใหม่ได้ฟรี ไม่มีเงื่อนไข",
+                footer_desc: "ร้านขายไอดีเกม Roblox และเกมอื่นๆ อันดับ 1 ในไทย<br>ปลอดภัย มั่นใจ ทุกการซื้อขาย",
+                footer_product: "สินค้า", footer_help: "ช่วยเหลือ", footer_help_1: "วิธีซื้อสินค้า", footer_help_2: "การประกัน", footer_help_3: "ติดต่อเรา",
+                footer_company: "บริษัท", footer_company_1: "เกี่ยวกับเรา", footer_company_2: "นโยบายความเป็นส่วนตัว", footer_company_3: "ข้อตกลงการใช้งาน", footer_rights: ". สงวนลิขสิทธิ์ทุกประการ",
+                login_title: "เข้าสู่ระบบ", login_user: "ชื่อผู้ใช้", login_user_ph: "กรอกชื่อผู้ใช้", login_pass: "รหัสผ่าน", login_pass_ph: "กรอกรหัสผ่าน", login_btn: "เข้าสู่ระบบ", login_no_acc: "ยังไม่มีบัญชี?", login_reg_link: "สมัครสมาชิก",
+                reg_title: "สมัครสมาชิก", reg_avatar: "รูปโปรไฟล์ (ไม่บังคับ)", reg_user: "ชื่อผู้ใช้ (ห้ามซ้ำ)", reg_user_ph: "ตั้งชื่อผู้ใช้", reg_random: "สุ่มชื่อ", reg_user_err: "ชื่อผู้ใช้นี้ถูกใช้งานแล้ว กรุณาใช้ชื่ออื่น", reg_pass: "รหัสผ่าน", reg_pass_ph: "ตั้งรหัสผ่าน", reg_confirm: "ยืนยันรหัสผ่าน", reg_confirm_ph: "กรอกรหัสผ่านอีกครั้ง", reg_pass_err: "รหัสผ่านทั้ง 2 ช่องไม่ตรงกัน", reg_captcha: "ฉันไม่ใช่โปรแกรมอัตโนมัติ", reg_captcha_err: "กรุณายืนยันว่าคุณไม่ใช่บอต", reg_btn: "สมัครสมาชิก", reg_has_acc: "มีบัญชีอยู่แล้ว?", reg_login_link: "เข้าสู่ระบบ",
+                set_title: "ตั้งค่าบัญชี", set_avatar: "เปลี่ยนรูปโปรไฟล์", set_lang: "เปลี่ยนภาษา (Language)", set_theme: "ธีม (Theme)", set_btn: "บันทึกการตั้งค่า",
+                succ_title: "ทำรายการสำเร็จ!", succ_btn: "ตกลง",
+                succ_buy: "คุณได้ซื้อ {productName} เป็นที่เรียบร้อยแล้ว<br><span style='color: var(--gray-500); font-size: 0.9rem;'>ยอดเงินที่หัก: ฿{price}</span>",
+                deliv_user: "ชื่อผู้ใช้:", deliv_pass: "รหัสผ่าน:",
+                admin_title: "ตั้งค่าเว็บไซต์", admin_shop_name: "1. ชื่อร้านค้า", admin_logo: "2. รูปภาพโลโก้ (อัปโหลดจากเครื่อง)", admin_logo_curr: "รูปปัจจุบัน:",
+                admin_manage: "3. จัดการเงินและบัญชีผู้ใช้ (Admin)", admin_manage_ph: "ชื่อผู้ใช้ (คลิกจากตารางด้านล่าง หรือพิมพ์เอง)", admin_amount_ph: "จำนวนเงิน (บาท)", admin_add: "+ บวก", admin_sub: "- ลบ",
+                admin_table_desc: "รายชื่อผู้ใช้ทั้งหมด (คลิกเพื่อเลือก):", th_user: "ชื่อผู้ใช้", th_pass: "รหัสผ่าน", th_balance: "เงินคงเหลือ", th_spent: "ยอดซื้อ", th_orders: "ออเดอร์", th_action: "จัดการ",
+                admin_code_title: "4. สร้างโค้ดรับเครดิต", admin_code_gen: "สุ่ม", admin_code_create: "สร้างโค้ด", admin_code_list: "รายการโค้ดทั้งหมด:",
+                admin_prod_title: "5. จัดการสินค้า", admin_reset: "รีเซ็ตค่าเริ่มต้น", admin_save: "บันทึกการตั้งค่าร้าน",
+                edit_title: "แก้ไขสินค้า", edit_status: "สถานะการขาย", edit_available: "เปิดขายปกติ", edit_soldout: "ปิดการขาย (สินค้าหมด)",
+                edit_cat: "หมวดหมู่สินค้า", edit_game: "ชื่อเกม", edit_price: "ราคา (บาท)", edit_prod_name: "ชื่อสินค้า / รายละเอียด", edit_old_price: "ราคาเดิม (ถ้ามี)", edit_tags: "แท็ก (คั่นด้วยจุลภาค ,)", edit_img: "รูปภาพสินค้า", edit_cancel: "ยกเลิก", edit_save: "บันทึกการแก้ไข",
+                edit_inventory_title: "6. จัดการสต็อกไอดี (Inventory)", edit_inventory_desc: "เพิ่มชื่อผู้ใช้และรหัสผ่านของไอดีเกมที่ต้องการขาย (ระบบจะสุ่มส่งให้ลูกค้า)", edit_inventory_add: "เพิ่ม",
+                prod_out: "สินค้าหมด", prod_restock: "รอพายหลัง", prod_buy: "ซื้อเลย", prod_soldout_btn: "สินค้าหมด",
+                prof_settings: "⚙️ ตั้งค่าบัญชี", prof_logout: "🚪 ออกจากระบบ", prof_balance: "ยอดเงิน:",
+                btn_redeem: "🎁 แลกโค้ด", redeem_title: "แลกโค้ดรับเครดิต", redeem_label: "โค้ดรับเครดิตฟรี", redeem_btn: "แลกโค้ด",
+                toa_welcome: "ยินดีต้อนรับ {user}", toa_logout: "ออกจากระบบเรียบร้อยแล้ว", toa_set_saved: "บันทึกการตั้งค่าบัญชีสำเร็จ", toa_login_err: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", toa_buy_login: "กรุณาเข้าสู่ระบบก่อนทำการซื้อ", toa_no_money: "ยอดเงินในกระเป๋าไม่เพียงพอ", toa_out_stock: "สินค้าหมด ไม่สามารถซื้อได้ในขณะนี้", toa_admin_err: "คุณไม่มีสิทธิ์เข้าถึงหน้านี้", toa_admin_add: "เพิ่มเงินให้ {user} จำนวน ฿{amount} สำเร็จ", toa_admin_sub: "ลดเงินให้ {user} จำนวน ฿{amount} สำเร็จ", toa_no_user: "ไม่พบชื่อผู้ใช้นี้ในระบบ", toa_invalid_amount: "กรุณาระบุจำนวนเงินที่ถูกต้อง", toa_neg_money: "ยอดเงินไม่สามารถติดลบได้", toa_save_shop: "บันทึกการตั้งค่าร้านเรียบร้อยแล้ว", toa_del_user: "ลบผู้ใช้ {user} สำเร็จ", toa_cant_del_admin: "ไม่สามารถลบแอดมินหลักได้", toa_confirm_del: "คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้ \"{user}\" ออกจากระบบ? ข้อมูลทั้งหมดจะหายไป", toa_confirm_reset: "คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ตข้อมูลทั้งหมดกลับเป็นค่าเริ่มต้น? (บัญชีผู้ใช้ทั้งหมดจะหายไป เหลือแค่แอดมิน)",
+                toa_code_ok: "แลกโค้ดสำเร็จ! รับ ฿{amount}", toa_code_invalid: "โค้ดไม่ถูกต้อง หรือไม่มีอยู่ในระบบ", toa_code_used: "คุณใช้โค้ดนี้ไปแล้ว", toa_code_full: "โค้ดนี้ถูกใช้ครบสิทธิ์แล้ว", toa_code_created: "สร้างโค้ดสำเร็จ",
+                toa_add_acc_ok: "เพิ่มไอดีเข้าสต็อกแล้ว", toa_del_acc_ok: "ลบไอดีออกจากสต็อกแล้ว", toa_no_acc: "ไม่พบไอดีในสต็อก",
+                admin_you: "(คุณ)", btn_del: "ลบ", btn_copy: "คัดลอก"
+            },
+            en: {
+                nav_products: "Products", nav_features: "Why Us", nav_admin: "Admin",
+                hero_badge: "Quality Game IDs, 100% Safe", hero_title1: "Buy Game IDs", hero_title2: "You Can Trust",
+                hero_desc: "{shopName} offers a wide selection of famous game IDs with free replacement guarantee and 24/7 fast service.",
+                hero_btn_buy: "Buy Now →", hero_btn_view: "View All",
+                stat_1: "IDs Sold", stat_2: "Satisfaction", stat_3: "24/7 Service", stat_4_title: "Free", stat_4: "ID Replacement",
+                sec_latest: "Latest Products", sec_latest_desc: "Choose the game ID you want",
+                filter_all: "All", filter_blox: "Blox Fruits", filter_egg: "Steal and Egg", filter_spin: "Block Spin",
+                feat_title: "Why Choose Us", feat_desc: "We strive to provide the best service for you",
+                feat_1_title: "100% Safe", feat_1_desc: "All IDs are verified and ban-safe",
+                feat_2_title: "Fast Delivery", feat_2_desc: "Get your ID instantly after payment",
+                feat_3_title: "Pro Support", feat_3_desc: "Ready to help 24 hours a day",
+                feat_4_title: "Free Replacement", feat_4_desc: "Free ID replacement if there's an issue",
+                footer_desc: "No.1 Game ID store in Thailand<br>Safe & Secure trading",
+                footer_product: "Products", footer_help: "Help", footer_help_1: "How to buy", footer_help_2: "Warranty", footer_help_3: "Contact us",
+                footer_company: "Company", footer_company_1: "About us", footer_company_2: "Privacy Policy", footer_company_3: "Terms of Use", footer_rights: ". All rights reserved.",
+                login_title: "Login", login_user: "Username", login_user_ph: "Enter username", login_pass: "Password", login_pass_ph: "Enter password", login_btn: "Login", login_no_acc: "Don't have an account?", login_reg_link: "Register",
+                reg_title: "Register", reg_avatar: "Profile Picture (Optional)", reg_user: "Username (Unique)", reg_user_ph: "Set username", reg_random: "Random", reg_user_err: "Username already taken.", reg_pass: "Password", reg_pass_ph: "Set password", reg_confirm: "Confirm Password", reg_confirm_ph: "Re-enter password", reg_pass_err: "Passwords do not match", reg_captcha: "I'm not a robot", reg_captcha_err: "Please verify", reg_btn: "Register", reg_has_acc: "Already have an account?", reg_login_link: "Login",
+                set_title: "Account Settings", set_avatar: "Change Profile Picture", set_lang: "Language", set_theme: "Theme", set_btn: "Save Settings",
+                succ_title: "Success!", succ_btn: "OK",
+                succ_buy: "Purchased {productName}<br><span style='color: var(--gray-500); font-size: 0.9rem;'>Amount: ฿{price}</span>",
+                deliv_user: "Username:", deliv_pass: "Password:",
+                admin_title: "Site Settings", admin_shop_name: "1. Shop Name", admin_logo: "2. Logo Image", admin_logo_curr: "Current:",
+                admin_manage: "3. Manage Users", admin_manage_ph: "Username", admin_amount_ph: "Amount (THB)", admin_add: "+ Add", admin_sub: "- Sub",
+                admin_table_desc: "All Users:", th_user: "Username", th_pass: "Password", th_balance: "Balance", th_spent: "Spent", th_orders: "Orders", th_action: "Action",
+                admin_code_title: "4. Create Code", admin_code_gen: "Random", admin_code_create: "Create", admin_code_list: "All Codes:",
+                admin_prod_title: "5. Manage Products", admin_reset: "Reset Data", admin_save: "Save",
+                edit_title: "Edit Product", edit_status: "Status", edit_available: "Available", edit_soldout: "Out of Stock",
+                edit_cat: "Category", edit_game: "Game", edit_price: "Price", edit_prod_name: "Title", edit_old_price: "Old Price", edit_tags: "Tags", edit_img: "Image", edit_cancel: "Cancel", edit_save: "Save",
+                edit_inventory_title: "6. Inventory", edit_inventory_desc: "Add accounts (System will randomly deliver)", edit_inventory_add: "Add",
+                prod_out: "OUT OF STOCK", prod_restock: "Restocking", prod_buy: "Buy", prod_soldout_btn: "Out of Stock",
+                prof_settings: "⚙️ Settings", prof_logout: "🚪 Logout", prof_balance: "Balance:",
+                btn_redeem: "🎁 Redeem", redeem_title: "Redeem Code", redeem_label: "Free Credit Code", redeem_btn: "Redeem",
+                toa_welcome: "Welcome {user}", toa_logout: "Logged out", toa_set_saved: "Saved", toa_login_err: "Invalid login", toa_buy_login: "Please login", toa_no_money: "Insufficient balance", toa_out_stock: "Out of stock", toa_admin_err: "Access denied", toa_admin_add: "Added ฿{amount} to {user}", toa_admin_sub: "Subtracted ฿{amount} from {user}", toa_no_user: "User not found", toa_invalid_amount: "Invalid amount", toa_neg_money: "Cannot be negative", toa_save_shop: "Saved", toa_del_user: "Deleted {user}", toa_cant_del_admin: "Cannot delete admin", toa_confirm_del: "Delete {user}?", toa_confirm_reset: "Reset all data?",
+                toa_code_ok: "Redeemed! Got ฿{amount}", toa_code_invalid: "Invalid code", toa_code_used: "Code already used", toa_code_full: "Code limit reached", toa_code_created: "Code created",
+                toa_add_acc_ok: "Added to inventory", toa_del_acc_ok: "Removed", toa_no_acc: "No accounts",
+                admin_you: "(You)", btn_del: "Del", btn_copy: "Copy"
+            }
+        };
+
+        const defaultProducts = [
+            { id: 1, game: 'Blox Fruits', category: 'bloxfruits', title: 'Blox Fruits Level Max / Leopard', icon: '🍎', image: '', price: 1290, oldPrice: 1790, tags: ['Max Level', 'Leopard', 'Godhuman'], badge: 'HOT', badgeType: 'hot', available: true, accounts: [
+                { username: 'blox_user_001', password: 'pass_abc123' },
+                { username: 'blox_user_002', password: 'pass_def456' }
+            ]},
+            { id: 2, game: 'Blox Fruits', category: 'bloxfruits', title: 'Blox Fruits Kitsune + 10M Beli', icon: '🦊', image: '', price: 2590, oldPrice: null, tags: ['Kitsune', '10M Beli', 'Permanent'], badge: 'NEW', badgeType: 'new', available: true, accounts: [
+                { username: 'kitsune_pro_01', password: 'kitsune_pass1' }
+            ]},
+            { id: 3, game: 'Steal and Egg', category: 'stealegg', title: 'Steal and Egg Secret Pets', icon: '🥚', image: '', price: 890, oldPrice: 1290, tags: ['Secret Pet', '5B Cash', 'Level Max'], badge: 'HOT', badgeType: 'hot', available: true, accounts: [] },
+            { id: 4, game: 'Steal and Egg', category: 'stealegg', title: 'Steal and Egg 100 Eggs Pack', icon: '🐣', image: '', price: 490, oldPrice: null, tags: ['100 Eggs', '1B Cash', 'Starter'], badge: null, available: true, accounts: [] },
+            { id: 5, game: 'Block Spin', category: 'blockspin', title: 'Block Spin Mythic Sword', icon: '⚔️', image: '', price: 1590, oldPrice: 2200, tags: ['Mythic Sword', 'Rare Skin', '80% Win Rate'], badge: 'NEW', badgeType: 'new', available: true, accounts: [] },
+            { id: 6, game: 'Block Spin', category: 'blockspin', title: 'Block Spin 500 Spins', icon: '🎰', image: '', price: 690, oldPrice: 990, tags: ['500 Spins', 'Luck 5x', 'Level 50+'], badge: 'HOT', badgeType: 'hot', available: true, accounts: [] }
+        ];
+
+        const defaultSettings = {
+            shopName: 'GeckoShop',
+            logoUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🦎</text></svg>'
+        };
+
+        const ADMIN_USERNAME = "Admin_Gk9x2B";
+        const ADMIN_PASSWORD = "P@ss_7Kx!9mQ2";
+
+        let products = [];
+        let settings = {};
+        let users = {};
+        let wallets = {}; 
+        let codes = []; 
+        let currentUser = null; 
+        let currentLang = localStorage.getItem('geckoLang') || 'th';
+        let currentTheme = localStorage.getItem('geckoTheme') || 'light';
+
+        let tempLogoBase64 = null; 
+        let tempProductImageBase64 = null; 
+        let tempRegAvatarBase64 = null; 
+        let tempSettingsAvatarBase64 = null; 
+        let currentEditingProductId = null; 
+
+        const grid = document.getElementById('productGrid');
+        const adminModal = document.getElementById('adminModal');
+        const editProductModal = document.getElementById('editProductModal');
+        const successModal = document.getElementById('successModal');
+        const loginModal = document.getElementById('loginModal');
+        const registerModal = document.getElementById('registerModal');
+        const settingsModal = document.getElementById('settingsModal');
+        const redeemModal = document.getElementById('redeemModal');
+
+        const categoryNames = { 'bloxfruits': 'Blox Fruits', 'stealegg': 'Steal and Egg', 'blockspin': 'Block Spin' };
+
+        function t(key, vars = {}) {
+            let text = translations[currentLang][key] || key;
+            for (let k in vars) {
+                text = text.replace(`{${k}}`, vars[k]);
+            }
+            return text;
+        }
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+        }
+
+        function translateUI() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (el.tagName === 'INPUT' && el.hasAttribute('placeholder')) {
+                    el.placeholder = t(key);
+                } else {
+                    el.innerHTML = t(key);
+                }
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+            });
+
+            document.getElementById('heroDescription').innerHTML = t('hero_desc', { shopName: settings.shopName });
+            document.getElementById('footerDescription').innerHTML = t('footer_desc');
+            
+            renderProducts();
+            renderAdminWalletTable();
+            renderAdminCodeList(); 
+            renderAdminProductList();
+            updateAuthUI();
+            updateSwitchText(); 
+        }
+
+        function loadData() {
+            products = JSON.parse(localStorage.getItem('geckoProducts')) || [...defaultProducts];
+            settings = JSON.parse(localStorage.getItem('geckoSettings')) || { ...defaultSettings };
+            
+            users = JSON.parse(localStorage.getItem('geckoUsers')) || {};
+            wallets = JSON.parse(localStorage.getItem('geckoWallets')) || {};
+            codes = JSON.parse(localStorage.getItem('geckoCodes')) || []; 
+
+            products.forEach(p => { if (!p.accounts) p.accounts = []; });
+
+            if (!users[ADMIN_USERNAME]) {
+                users[ADMIN_USERNAME] = { password: ADMIN_PASSWORD, avatar: '' };
+            }
+            if (!wallets[ADMIN_USERNAME]) {
+                wallets[ADMIN_USERNAME] = { balance: 99999, totalSpent: 0, orderCount: 0, totalTopup: 99999 };
+            }
+            
+            for (let user in users) {
+                if (!wallets[user]) wallets[user] = { balance: 0, totalSpent: 0, orderCount: 0, totalTopup: 0 };
+                if (!users[user].redeemedCodes) users[user].redeemedCodes = [];
+            }
+
+            currentUser = localStorage.getItem('geckoCurrentUser');
+
+            applySettingsToDOM();
+            translateUI(); 
+        }
+
+        function updateAuthUI() {
+            const authArea = document.getElementById('headerAuthArea');
+            const adminBtn = document.getElementById('adminNavBtn');
+
+            if (currentUser === ADMIN_USERNAME) {
+                adminBtn.style.display = 'block';
+            } else {
+                adminBtn.style.display = 'none';
+            }
+
+            if (currentUser) {
+                const userWallet = wallets[currentUser] || { balance: 0 };
+                
+                const userAvatar = (users[currentUser] && users[currentUser].avatar) 
+                    ? users[currentUser].avatar 
+                    : `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser)}&background=212529&color=fff&rounded=true&bold=true`;
+
+                authArea.innerHTML = `
+                    <button class="btn btn-outline" onclick="openRedeemModal()" style="padding: 8px 15px; font-size: 0.85rem;">
+                        ${t('btn_redeem')}
+                    </button>
+                    <div class="wallet-badge">
+                        <span id="walletBalanceDisplay">฿${userWallet.balance.toLocaleString('th-TH')}</span>
+                    </div>
+                    
+                    <div class="profile-dropdown-container">
+                        <img src="${userAvatar}" alt="Profile" class="profile-avatar" onclick="toggleProfileMenu(event)">
+                        
+                        <div class="profile-menu" id="profileMenu">
+                            <div class="profile-menu-header">
+                                <img src="${userAvatar}" alt="Profile">
+                                <div class="profile-menu-info">
+                                    <div class="profile-menu-name">${currentUser}</div>
+                                    <div class="profile-menu-balance">${t('prof_balance')} ฿${userWallet.balance.toLocaleString('th-TH')}</div>
+                                </div>
+                            </div>
+                            
+                            <a class="profile-menu-item" onclick="openSettingsModal()">
+                                ${t('prof_settings')}
+                            </a>
+                            
+                            <a class="profile-menu-item logout-item" onclick="handleLogout()">
+                                ${t('prof_logout')}
+                            </a>
+                        </div>
+                    </div>
+                `;
+            } else {
+                authArea.innerHTML = `
+                    <button class="btn btn-outline" onclick="openLoginModal()">${t('login_title')}</button>
+                    <button class="btn btn-primary" onclick="openRegisterModal()">${t('reg_title')}</button>
+                `;
+            }
+            renderAdminWalletTable();
+        }
+
+        function toggleProfileMenu(event) {
+            event.stopPropagation(); 
+            const menu = document.getElementById('profileMenu');
+            if (menu) menu.classList.toggle('show');
+        }
+
+        function closeProfileMenu() {
+            const menu = document.getElementById('profileMenu');
+            if (menu) menu.classList.remove('show');
+        }
+
+        window.addEventListener('click', () => {
+            closeProfileMenu();
+        });
+
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('geckoCurrentUser');
+            updateAuthUI();
+            closeProfileMenu();
+            showToast(t('toa_logout'), 'success');
+        }
+
+        function openLoginModal() { loginModal.classList.add('active'); document.getElementById('loginForm').reset(); }
+        function closeLoginModal() { loginModal.classList.remove('active'); }
+        
+        function openRegisterModal() { 
+            registerModal.classList.add('active'); 
+            document.getElementById('registerForm').reset(); 
+            resetRegErrors(); 
+            tempRegAvatarBase64 = null;
+            document.getElementById('regAvatarPreview').innerHTML = '<span>👤</span>';
+        }
+        function closeRegisterModal() { registerModal.classList.remove('active'); }
+
+        function switchToRegister() { closeLoginModal(); openRegisterModal(); }
+        function switchToLogin() { closeRegisterModal(); openLoginModal(); }
+
+        function openRedeemModal() {
+            document.getElementById('redeemCodeInput').value = '';
+            redeemModal.classList.add('active');
+        }
+        function closeRedeemModal() { redeemModal.classList.remove('active'); }
+
+        function handleRedeem() {
+            let codeText = document.getElementById('redeemCodeInput').value.trim().toUpperCase();
+            if (!codeText) return;
+
+            const codeData = codes.find(c => c.code === codeText);
+
+            if (!codeData) {
+                showToast(t('toa_code_invalid'), 'error');
+                return;
+            }
+
+            if (users[currentUser].redeemedCodes.includes(codeText)) {
+                showToast(t('toa_code_used'), 'error');
+                return;
+            }
+
+            if (codeData.usedBy.length >= codeData.maxUses) {
+                showToast(t('toa_code_full'), 'error');
+                return;
+            }
+
+            const amount = codeData.amount;
+            wallets[currentUser].balance += amount;
+            wallets[currentUser].totalTopup += amount;
+            
+            users[currentUser].redeemedCodes.push(codeText);
+            codeData.usedBy.push(currentUser);
+
+            localStorage.setItem('geckoWallets', JSON.stringify(wallets));
+            localStorage.setItem('geckoUsers', JSON.stringify(users));
+            localStorage.setItem('geckoCodes', JSON.stringify(codes));
+
+            updateAuthUI();
+            closeRedeemModal();
+            showToast(t('toa_code_ok', { amount: amount.toLocaleString() }), 'success');
+        }
+
+        function openSettingsModal() {
+            closeProfileMenu();
+            document.getElementById('settingsForm').reset();
+            document.getElementById('settingsLanguage').value = currentLang; 
+            document.getElementById('settingsTheme').value = currentTheme;
+            tempSettingsAvatarBase64 = null;
+            
+            const userAvatar = (users[currentUser] && users[currentUser].avatar) 
+                ? users[currentUser].avatar 
+                : `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser)}&background=212529&color=fff&rounded=true&bold=true`;
+            
+            document.getElementById('settingsAvatarPreview').innerHTML = `<img src="${userAvatar}">`;
+            settingsModal.classList.add('active');
+        }
+
+        function closeSettingsModal() { settingsModal.classList.remove('active'); }
+
+        document.getElementById('settingsAvatarFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const MAX_SIZE = 150;
+                        let width = img.width; let height = img.height;
+                        if (width > height) { if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } } 
+                        else { if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; } }
+                        canvas.width = width; canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        tempSettingsAvatarBase64 = canvas.toDataURL('image/jpeg', 0.8);
+                        document.getElementById('settingsAvatarPreview').innerHTML = `<img src="${tempSettingsAvatarBase64}">`;
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('settingsForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const selectedLang = document.getElementById('settingsLanguage').value;
+            const selectedTheme = document.getElementById('settingsTheme').value;
+
+            if (tempSettingsAvatarBase64) {
+                users[currentUser].avatar = tempSettingsAvatarBase64;
+            }
+            
+            currentLang = selectedLang;
+            currentTheme = selectedTheme;
+            localStorage.setItem('geckoLang', currentLang);
+            localStorage.setItem('geckoTheme', currentTheme);
+            localStorage.setItem('geckoUsers', JSON.stringify(users));
+            
+            applyTheme(currentTheme); // 🔥 ใช้ธีมใหม่ทันที
+            closeSettingsModal();
+            translateUI(); 
+            showToast(t('toa_set_saved'), 'success');
+        });
+
+        function resetRegErrors() {
+            document.getElementById('usernameError').style.display = 'none';
+            document.getElementById('passwordError').style.display = 'none';
+            document.getElementById('captchaError').style.display = 'none';
+            document.getElementById('regUsername').classList.remove('error');
+            document.getElementById('regConfirmPassword').classList.remove('error');
+            document.getElementById('captchaCheckbox').checked = false;
+        }
+
+        document.getElementById('regAvatarFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const MAX_SIZE = 150;
+                        let width = img.width; let height = img.height;
+                        if (width > height) { if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } } 
+                        else { if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; } }
+                        canvas.width = width; canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        tempRegAvatarBase64 = canvas.toDataURL('image/jpeg', 0.8);
+                        document.getElementById('regAvatarPreview').innerHTML = `<img src="${tempRegAvatarBase64}" alt="Preview">`;
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function generateRandomUsername() {
+            const adjectives = ["Swift", "Clever", "Brave", "Silent", "Mighty", "Epic", "Neon", "Cyber"];
+            const nouns = ["Gecko", "Lizard", "Dragon", "Raptor", "Viper", "Wolf", "Tiger", "Hawk"];
+            const randomAdj = adjectives[Math.floor(Math.random() * adjectives.length)];
+            const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            
+            document.getElementById('regUsername').value = `${randomAdj}${randomNoun}${randomNum}`;
+            checkUsernameDuplicate();
+        }
+
+        function checkUsernameDuplicate() {
+            const username = document.getElementById('regUsername').value.trim();
+            const errorEl = document.getElementById('usernameError');
+            const inputEl = document.getElementById('regUsername');
+
+            if (username && users[username]) {
+                errorEl.style.display = 'block';
+                inputEl.classList.add('error');
+                return true;
+            } else {
+                errorEl.style.display = 'none';
+                inputEl.classList.remove('error');
+                return false;
+            }
+        }
+
+        function toggleCaptcha() {
+            const checkbox = document.getElementById('captchaCheckbox');
+            checkbox.checked = !checkbox.checked;
+            document.getElementById('captchaError').style.display = 'none';
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('regUsername').value.trim();
+            const pass = document.getElementById('regPassword').value;
+            const confirmPass = document.getElementById('regConfirmPassword').value;
+            const isCaptchaChecked = document.getElementById('captchaCheckbox').checked;
+
+            let isValid = true;
+
+            if (users[username]) {
+                document.getElementById('usernameError').style.display = 'block';
+                document.getElementById('regUsername').classList.add('error');
+                isValid = false;
+            }
+
+            if (pass !== confirmPass) {
+                document.getElementById('passwordError').style.display = 'block';
+                document.getElementById('regConfirmPassword').classList.add('error');
+                isValid = false;
+            }
+
+            if (!isCaptchaChecked) {
+                document.getElementById('captchaError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            users[username] = { password: pass, avatar: tempRegAvatarBase64, redeemedCodes: [] };
+            wallets[username] = { balance: 0, totalSpent: 0, orderCount: 0, totalTopup: 0 };
+            
+            localStorage.setItem('geckoUsers', JSON.stringify(users));
+            localStorage.setItem('geckoWallets', JSON.stringify(wallets));
+            
+            currentUser = username;
+            localStorage.setItem('geckoCurrentUser', currentUser);
+
+            closeRegisterModal();
+            updateAuthUI();
+            showToast(t('toa_welcome', { user: username }), 'success');
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const pass = document.getElementById('loginPassword').value;
+
+            if (users[username] && users[username].password === pass) {
+                currentUser = username;
+                localStorage.setItem('geckoCurrentUser', currentUser);
+                closeLoginModal();
+                updateAuthUI();
+                showToast(t('toa_welcome', { user: username }), 'success');
+            } else {
+                showToast(t('toa_login_err'), 'error');
+            }
+        });
+
+        function buyProduct(id) {
+            if (!currentUser) {
+                showToast(t('toa_buy_login'), 'error');
+                openLoginModal();
+                return;
+            }
+
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            if (!product.available) {
+                showToast(t('toa_out_stock'), 'error');
+                return;
+            }
+
+            if (!product.accounts || product.accounts.length === 0) {
+                showToast(t('toa_out_stock'), 'error');
+                return;
+            }
+
+            const userWallet = wallets[currentUser];
+
+            if (userWallet.balance >= product.price) {
+                const randomIndex = Math.floor(Math.random() * product.accounts.length);
+                const deliveredAccount = product.accounts[randomIndex];
+                
+                product.accounts.splice(randomIndex, 1);
+
+                userWallet.balance -= product.price;
+                userWallet.totalSpent += product.price;
+                userWallet.orderCount += 1;
+                
+                localStorage.setItem('geckoProducts', JSON.stringify(products));
+                localStorage.setItem('geckoWallets', JSON.stringify(wallets));
+                
+                updateAuthUI(); 
+                renderProducts(); 
+                renderAdminProductList();
+                
+                document.getElementById('successMessage').innerHTML = t('succ_buy', { productName: product.title, price: product.price.toLocaleString() });
+                
+                const delivArea = document.getElementById('deliveredAccountArea');
+                document.getElementById('delivUser').textContent = deliveredAccount.username;
+                document.getElementById('delivPass').textContent = deliveredAccount.password;
+                delivArea.style.display = 'block';
+
+                successModal.classList.add('active');
+            } else {
+                showToast(t('toa_no_money'), 'error');
+            }
+        }
+
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('คัดลอกแล้ว!', 'success');
+            });
+        }
+
+        function openAdmin() {
+            if (currentUser !== ADMIN_USERNAME) {
+                showToast(t('toa_admin_err'), 'error');
+                return;
+            }
+
+            document.getElementById('inputShopName').value = settings.shopName;
+            document.getElementById('logoPreviewImg').src = settings.logoUrl;
+            document.getElementById('adminTargetUser').value = ''; 
+            document.getElementById('adminAdjustAmount').value = '';
+            document.getElementById('adminNewCode').value = '';
+            document.getElementById('adminCodeAmount').value = '';
+            document.getElementById('adminCodeMaxUses').value = '';
+            
+            tempLogoBase64 = null; 
+            renderAdminProductList();
+            renderAdminWalletTable(); 
+            renderAdminCodeList(); 
+            adminModal.classList.add('active');
+        }
+
+        function closeAdmin() { adminModal.classList.remove('active'); }
+
+        function renderAdminWalletTable() {
+            const tbody = document.getElementById('adminUserTableBody');
+            if (!tbody) return;
+
+            const sortedUsers = Object.keys(wallets).sort();
+            
+            tbody.innerHTML = sortedUsers.map(user => {
+                const w = wallets[user];
+                const u = users[user] || { password: 'N/A' };
+                const isSelected = document.getElementById('adminTargetUser').value === user;
+                const isMe = user === currentUser;
+                
+                const deleteBtn = isMe ? '' : `<button class="btn-delete-user" onclick="deleteUser('${user}', event)">${t('btn_del')}</button>`;
+
+                return `
+                <tr onclick="selectUserForAdmin('${user}')" class="${isSelected ? 'selected' : ''}">
+                    <td style="font-weight: 500;">${user} ${isMe ? `<span style="font-size:0.7rem; color:var(--gray-500);">${t('admin_you')}</span>` : ''}</td>
+                    <td style="max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${u.password}">${u.password}</td>
+                    <td>฿${w.balance.toLocaleString()}</td>
+                    <td>฿${w.totalSpent.toLocaleString()}</td>
+                    <td>${w.orderCount}</td>
+                    <td>${deleteBtn}</td>
+                </tr>
+                `;
+            }).join('');
+        }
+
+        function deleteUser(username, event) {
+            event.stopPropagation(); 
+            
+            if (username === ADMIN_USERNAME) {
+                showToast(t('toa_cant_del_admin'), 'error');
+                return;
+            }
+            
+            if (confirm(t('toa_confirm_del', { user: username }))) {
+                delete users[username];
+                delete wallets[username];
+                
+                localStorage.setItem('geckoUsers', JSON.stringify(users));
+                localStorage.setItem('geckoWallets', JSON.stringify(wallets));
+                
+                if (currentUser === username) {
+                    handleLogout(); 
+                }
+                
+                renderAdminWalletTable();
+                showToast(t('toa_del_user', { user: username }), 'success');
+            }
+        }
+
+        function selectUserForAdmin(username) {
+            document.getElementById('adminTargetUser').value = username;
+            renderAdminWalletTable();
+        }
+
+        document.getElementById('adminTargetUser').addEventListener('input', renderAdminWalletTable);
+
+        function adminAdjustWallet(multiplier) {
+            const user = document.getElementById('adminTargetUser').value.trim();
+            const amountInput = document.getElementById('adminAdjustAmount').value;
+            
+            if (!user) { showToast('Please specify a user', 'error'); return; }
+            if (!wallets[user]) { showToast(t('toa_no_user'), 'error'); return; }
+            if (!amountInput || parseFloat(amountInput) <= 0) { showToast(t('toa_invalid_amount'), 'error'); return; }
+            
+            const amount = parseFloat(amountInput);
+            const newBalance = wallets[user].balance + (amount * multiplier);
+            
+            if (newBalance < 0) { showToast(t('toa_neg_money'), 'error'); return; }
+            
+            wallets[user].balance = newBalance;
+            if (multiplier > 0) wallets[user].totalTopup += amount;
+            
+            localStorage.setItem('geckoWallets', JSON.stringify(wallets));
+            
+            if (currentUser === user) updateAuthUI(); 
+            else renderAdminWalletTable(); 
+            
+            const msgKey = multiplier > 0 ? 'toa_admin_add' : 'toa_admin_sub';
+            showToast(t(msgKey, { user: user, amount: amount.toLocaleString() }), 'success');
+            document.getElementById('adminAdjustAmount').value = '';
+        }
+
+        function generateAdminCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < 8; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('adminNewCode').value = result;
+        }
+
+        function createCode() {
+            const codeText = document.getElementById('adminNewCode').value.trim().toUpperCase();
+            const amount = parseFloat(document.getElementById('adminCodeAmount').value);
+            const maxUses = parseInt(document.getElementById('adminCodeMaxUses').value);
+
+            if (!codeText) { showToast('กรุณาระบุโค้ด', 'error'); return; }
+            if (!amount || amount <= 0) { showToast('กรุณาระบุจำนวนเงิน', 'error'); return; }
+            if (!maxUses || maxUses <= 0) { showToast('กรุณาระบุจำนวนสิทธิ์', 'error'); return; }
+
+            if (codes.find(c => c.code === codeText)) {
+                showToast('โค้ดนี้มีอยู่ในระบบแล้ว', 'error');
+                return;
+            }
+
+            codes.push({ code: codeText, amount: amount, maxUses: maxUses, usedBy: [] });
+
+            localStorage.setItem('geckoCodes', JSON.stringify(codes));
+            
+            document.getElementById('adminNewCode').value = '';
+            document.getElementById('adminCodeAmount').value = '';
+            document.getElementById('adminCodeMaxUses').value = '';
+
+            renderAdminCodeList();
+            showToast(t('toa_code_created'), 'success');
+        }
+
+        function renderAdminCodeList() {
+            const tbody = document.getElementById('adminCodeTableBody');
+            if (!tbody) return;
+
+            if (codes.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--gray-500);">ยังไม่มีโค้ดในระบบ</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = codes.map((c, index) => {
+                return `
+                <tr>
+                    <td style="font-weight: 600; color: var(--gray-900);">${c.code}</td>
+                    <td>฿${c.amount.toLocaleString()}</td>
+                    <td>${c.usedBy.length}</td>
+                    <td>${c.maxUses}</td>
+                    <td><button class="btn-delete-user" onclick="deleteCode(${index})">${t('btn_del')}</button></td>
+                </tr>
+                `;
+            }).join('');
+        }
+
+        function deleteCode(index) {
+            if (confirm('คุณแน่ใจหรือไม่ว่าต้องการลบโค้ดนี้?')) {
+                codes.splice(index, 1);
+                localStorage.setItem('geckoCodes', JSON.stringify(codes));
+                renderAdminCodeList();
+                showToast('ลบโค้ดเรียบร้อย', 'success');
+            }
+        }
+
+        function openEditProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            currentEditingProductId = id; 
+            
+            document.getElementById('editProductId').value = product.id;
+            document.getElementById('editCategory').value = product.category; 
+            document.getElementById('editGame').value = product.game;
+            document.getElementById('editTitle').value = product.title;
+            document.getElementById('editPrice').value = product.price;
+            document.getElementById('editOldPrice').value = product.oldPrice || '';
+            document.getElementById('editTags').value = product.tags.join(', ');
+            
+            const availableCheckbox = document.getElementById('editAvailable');
+            availableCheckbox.checked = product.available;
+            updateSwitchText();
+
+            document.getElementById('newAccUser').value = '';
+            document.getElementById('newAccPass').value = '';
+            renderProductInventory(id); 
+
+            tempProductImageBase64 = null;
+            const preview = document.getElementById('editImagePreview');
+            if (product.image) preview.src = product.image;
+            else preview.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">' + product.icon + '</text></svg>';
+            
+            editProductModal.classList.add('active');
+        }
+
+        function closeEditProduct() { 
+            editProductModal.classList.remove('active'); 
+            currentEditingProductId = null;
+        }
+
+        function renderProductInventory(productId) {
+            const list = document.getElementById('productInventoryList');
+            const product = products.find(p => p.id === productId);
+            
+            if (!product || !product.accounts || product.accounts.length === 0) {
+                list.innerHTML = `<div style="text-align: center; color: var(--gray-500); padding: 10px;">ยังไม่มีไอดีในสต็อก</div>`;
+                return;
+            }
+
+            list.innerHTML = product.accounts.map((acc, index) => `
+                <div class="inventory-item">
+                    <div>
+                        <span>${acc.username}</span> | <span>${acc.password}</span>
+                    </div>
+                    <button type="button" class="btn-del-inv" onclick="deleteAccountFromProduct(${index})" title="ลบ">×</button>
+                </div>
+            `).join('');
+        }
+
+        function addAccountToProduct() {
+            const userInp = document.getElementById('newAccUser').value.trim();
+            const passInp = document.getElementById('newAccPass').value.trim();
+            
+            if (!userInp || !passInp) {
+                showToast('กรุณากรอกชื่อผู้ใช้และรหัสผ่าน', 'error');
+                return;
+            }
+
+            const productIndex = products.findIndex(p => p.id === currentEditingProductId);
+            if (productIndex > -1) {
+                if (!products[productIndex].accounts) products[productIndex].accounts = [];
+                
+                products[productIndex].accounts.push({ username: userInp, password: passInp });
+                
+                localStorage.setItem('geckoProducts', JSON.stringify(products));
+                
+                document.getElementById('newAccUser').value = '';
+                document.getElementById('newAccPass').value = '';
+                
+                renderProductInventory(currentEditingProductId); 
+                renderProducts(); 
+                renderAdminProductList();
+                showToast(t('toa_add_acc_ok'), 'success');
+            }
+        }
+
+        function deleteAccountFromProduct(accIndex) {
+            if (!confirm('คุณแน่ใจหรือไม่ว่าต้องการลบไอดีนี้ออกจากสต็อก?')) return;
+
+            const productIndex = products.findIndex(p => p.id === currentEditingProductId);
+            if (productIndex > -1) {
+                products[productIndex].accounts.splice(accIndex, 1);
+                localStorage.setItem('geckoProducts', JSON.stringify(products));
+                
+                renderProductInventory(currentEditingProductId);
+                renderProducts(); 
+                renderAdminProductList();
+                showToast(t('toa_del_acc_ok'), 'success');
+            }
+        }
+
+        function updateSwitchText() {
+            const checkbox = document.getElementById('editAvailable');
+            const switchText = document.getElementById('switchStatusText');
+            if (!checkbox || !switchText) return;
+            if (checkbox.checked) {
+                switchText.textContent = t('edit_available');
+                switchText.style.color = 'var(--gray-800)';
+            } else {
+                switchText.textContent = t('edit_soldout');
+                switchText.style.color = 'var(--red)';
+            }
+        }
+
+        document.getElementById('editAvailable').addEventListener('change', updateSwitchText);
+
+        document.getElementById('inputLogoFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const MAX_SIZE = 200;
+                        let width = img.width; let height = img.height;
+                        if (width > height) { if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } } 
+                        else { if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; } }
+                        canvas.width = width; canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        tempLogoBase64 = canvas.toDataURL('image/jpeg', 0.8);
+                        document.getElementById('logoPreviewImg').src = tempLogoBase64;
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('adminForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            settings.shopName = document.getElementById('inputShopName').value;
+            if (tempLogoBase64) settings.logoUrl = tempLogoBase64;
+            localStorage.setItem('geckoSettings', JSON.stringify(settings));
+            applySettingsToDOM();
+            translateUI(); 
+            showToast(t('toa_save_shop'), 'success');
+        });
+
+        document.getElementById('editImageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const MAX_SIZE = 400;
+                        let width = img.width; let height = img.height;
+                        if (width > height) { if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } } 
+                        else { if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; } }
+                        canvas.width = width; canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        tempProductImageBase64 = canvas.toDataURL('image/jpeg', 0.8);
+                        document.getElementById('editImagePreview').src = tempProductImageBase64;
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('editProductForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('editProductId').value);
+            const pIndex = products.findIndex(p => p.id === id);
+            if (pIndex > -1) {
+                products[pIndex].category = document.getElementById('editCategory').value;
+                products[pIndex].game = document.getElementById('editGame').value;
+                products[pIndex].title = document.getElementById('editTitle').value;
+                products[pIndex].price = parseFloat(document.getElementById('editPrice').value);
+                products[pIndex].oldPrice = document.getElementById('editOldPrice').value ? parseFloat(document.getElementById('editOldPrice').value) : null;
+                products[pIndex].tags = document.getElementById('editTags').value.split(',').map(tag => tag.trim()).filter(tag => tag);
+                products[pIndex].available = document.getElementById('editAvailable').checked;
+                if (tempProductImageBase64) products[pIndex].image = tempProductImageBase64;
+
+                localStorage.setItem('geckoProducts', JSON.stringify(products));
+                renderProducts(); 
+                renderAdminProductList(); 
+                closeEditProduct();
+                showToast(t('toa_save_shop'), 'success');
+            }
+        });
+
+        function resetData() {
+            if (confirm(t('toa_confirm_reset'))) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.remove(); }, 3000);
+        }
+
+        function closeSuccessModal() { 
+            successModal.classList.remove('active'); 
+            document.getElementById('deliveredAccountArea').style.display = 'none'; 
+        }
+
+        [adminModal, editProductModal, successModal, loginModal, registerModal, settingsModal, redeemModal].forEach(m => {
+            m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('active'); });
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderProducts(btn.dataset.filter);
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        function renderProducts(filter = 'all') {
+            const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+            grid.innerHTML = filtered.map(p => {
+                const isSoldOut = !p.available;
+                const hasNoStock = !p.accounts || p.accounts.length === 0;
+                
+                return `
+                <div class="product-card">
+                    <div class="product-image">
+                        ${p.badge ? `<div class="product-badge ${p.badgeType || ''}">${p.badge}</div>` : ''}
+                        ${p.image ? `
+                            <div class="img-bg" style="background-image: url('${p.image}');"></div>
+                            <img src="${p.image}" alt="${p.title}" onerror="this.style.display='none'; this.previousElementSibling.style.display='none';">
+                        ` : p.icon}
+                        
+                        ${isSoldOut ? `
+                            <div class="sold-out-overlay">
+                                <div class="sold-out-text">${t('prod_out')}<br><span style="font-size: 1rem; font-weight: 500;">${t('prod_restock')}</span></div>
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-game">${p.game}</div>
+                        <div class="product-title">${p.title}</div>
+                        <div class="product-meta">${p.tags.map(tag => `<span class="meta-tag">${tag}</span>`).join('')}</div>
+                        ${!isSoldOut && hasNoStock ? `<div style="font-size: 0.75rem; color: #f59f00; font-weight: 500; margin-bottom: 8px;">⚠️ สต็อกว่าง (รอเติม)</div>` : ''}
+                        <div class="product-footer">
+                            <div>
+                                <span class="price">฿${p.price.toLocaleString()}</span>
+                                ${p.oldPrice ? `<span class="price-old">฿${p.oldPrice.toLocaleString()}</span>` : ''}
+                            </div>
+                            <button class="btn-buy" onclick="buyProduct(${p.id})" ${isSoldOut ? 'disabled' : ''}>
+                                ${isSoldOut ? t('prod_soldout_btn') : t('prod_buy')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function renderAdminProductList() {
+            const list = document.getElementById('adminProductList');
+            list.innerHTML = products.map(p => {
+                const catName = categoryNames[p.category] || p.category;
+                const accCount = p.accounts ? p.accounts.length : 0;
+                return `
+                <div class="admin-product-item">
+                    <div class="admin-product-info">
+                        ${p.image ? `<img src="${p.image}" class="admin-product-thumb">` : `<div class="admin-product-thumb" style="display:flex; align-items:center; justify-content:center; font-size:1.2rem;">${p.icon}</div>`}
+                        <div>
+                            <div class="admin-product-text">${p.title}</div>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 2px; flex-wrap: wrap;">
+                                <span style="font-size: 0.75rem; color: var(--gray-500);">฿${p.price.toLocaleString()}</span>
+                                <span class="category-badge">${catName}</span>
+                                <span style="font-size: 0.75rem; color: ${accCount > 0 ? '#1971c2' : '#fa5252'}; font-weight: 500;">สต็อก: ${accCount}</span>
+                                ${!p.available ? `<span style="font-size:0.75rem; color:var(--red); font-weight:500;">(ปิดขาย)</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-edit" onclick="openEditProduct(${p.id})">แก้ไข</button>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function applySettingsToDOM() {
+            const nameParts = settings.shopName.match(/^(.+?)(Shop|shop)$/);
+            if (nameParts && nameParts.length === 3) {
+                document.getElementById('headerShopName').innerHTML = `${nameParts[1]}<span style="color: var(--gray-500);">${nameParts[2]}</span>`;
+                document.getElementById('footerShopName').innerHTML = `${nameParts[1]}<span style="color: var(--gray-500);">${nameParts[2]}</span>`;
+            } else {
+                document.getElementById('headerShopName').textContent = settings.shopName;
+                document.getElementById('footerShopName').textContent = settings.shopName;
+            }
+            document.getElementById('copyrightShopName').textContent = settings.shopName;
+            document.title = `${settings.shopName} - Game ID Store`;
+            document.getElementById('headerLogoImg').src = settings.logoUrl;
+            document.getElementById('footerLogoImg').src = settings.logoUrl;
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
